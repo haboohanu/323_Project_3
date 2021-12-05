@@ -5,20 +5,12 @@ import java.util.*;
 import jakarta.persistence.*;
 
 @Entity(name = "STUDENTS")
-@Table(
-    uniqueConstraints = 
-        @UniqueConstraint(columnNames = {"STUDENT_ID"})
-)
 public class Student {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "STUDENT_SURROGATE")
-    private int studentSurrogate;
 
     @Column(length = 128)
     private String name;
 
+    @Id
     @Column(name = "STUDENT_ID")
     private int studentID;
 
@@ -29,18 +21,9 @@ public class Student {
     public Student() {
     }
 
-    public Student(int studentSurrogate, String name, int studentID) {
-        this.studentSurrogate = studentSurrogate;
+    public Student(String name, int studentID) {
         this.name = name;
         this.studentID = studentID;
-    }
-
-    public int getStudentSurrogate() {
-        return this.studentSurrogate;
-    }
-
-    public void setStudentSurrogate(int studentSurrogate) {
-        this.studentSurrogate = studentSurrogate;
     }
 
     public String getName() {

@@ -16,8 +16,8 @@ public class Semester {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "SEMESTER_SURROGATE")
-    private int semesterSurrogate;
+    @Column(name = "SEMESTER_ID")
+    private int semesterId;
 
     @OneToMany(mappedBy = "semester")
     private List<Section> sections;
@@ -52,12 +52,12 @@ public class Semester {
         this.startDate = startDate;
     }
 
-    public int getSemesterSurrogate() {
-        return this.semesterSurrogate;
+    public int getSemesterId() {
+        return this.semesterId;
     }
 
-    public void setSemesterSurrogate(int semesterSurrogate) {
-        this.semesterSurrogate = semesterSurrogate;
+    public void setSemesterId(int semesterId) {
+        this.semesterId = semesterId;
     }
 
 

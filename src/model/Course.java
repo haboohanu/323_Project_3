@@ -14,8 +14,8 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "COURSE_SURROGATE")
-    private int courseSurrogate;
+    @Column(name = "COURSE_ID")
+    private int courseId;
 
     @Column(length = 8)
     private String number;
@@ -29,7 +29,7 @@ public class Course {
     private List<Prerequisite> prerequisites;
 
     @ManyToOne
-    @JoinColumn(name = "DEPARTMENT_SURROGATE")
+    @JoinColumn(name = "DEPARTMENT_ID")
     private Department department;
 
 
@@ -89,11 +89,11 @@ public class Course {
     }
 
     public int getCourseSurrogate() {
-        return this.courseSurrogate;
+        return this.courseId;
     }
 
     public void setCourseSurrogate(int courseSurrogate) {
-        this.courseSurrogate = courseSurrogate;
+        this.courseId = courseSurrogate;
     }
  
 

@@ -5,23 +5,15 @@ import java.util.*;
 import jakarta.persistence.*;
 
 @Entity(name = "SECTIONS")
-@Table(
-    uniqueConstraints = 
-        @UniqueConstraint(columnNames = {"SECTION_NUMBER"})
-)
 public class Section {
 
     private int maxCapacity;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "SECTION_SURROGATE")
-    private int sectionSurrogate;
 
+    @Id
     @Column(name = "SECTION_NUMBER")
     private int sectionNumber;
     
-    @JoinColumn(name = "SEMESTER_SURROGATE")
+    @JoinColumn(name = "SEMESTER_ID")
     @ManyToOne
     private Semester semester;
 
@@ -29,11 +21,11 @@ public class Section {
     @ManyToMany
     private List<Student> students;
 
-    @JoinColumn(name = "TIMESLOT_SURROGATE")
+    @JoinColumn(name = "TIMESLOT_ID")
     @ManyToOne
     private TimeSlot timeSlot;
 
-    @JoinColumn(name = "COURSE_SURROGATE")
+    @JoinColumn(name = "COURSE_ID")
     @ManyToOne
     private Course course;
 
@@ -41,10 +33,13 @@ public class Section {
     public Section() {
     }
 
-    public Section(int maxCapacity, int sectionSurrogate, int sectionNumber) {
+    public Section(int maxCapacity, int sectionNumber, Semester semester, List<Student> students, TimeSlot timeSlot, Course course) {
         this.maxCapacity = maxCapacity;
-        this.sectionSurrogate = sectionSurrogate;
         this.sectionNumber = sectionNumber;
+        this.semester = semester;
+        this.students = students;
+        this.timeSlot = timeSlot;
+        this.course = course;
     }
 
 
@@ -54,14 +49,6 @@ public class Section {
 
     public void setMaxCapacity(int maxCapacity) {
         this.maxCapacity = maxCapacity;
-    }
-
-    public int getSectionSurrogate() {
-        return this.sectionSurrogate;
-    }
-
-    public void setSectionSurrogate(int sectionSurrogate) {
-        this.sectionSurrogate = sectionSurrogate;
     }
 
     public int getSectionNumber() {
@@ -79,8 +66,6 @@ public class Section {
     public void setSemester(Semester semester) {
         this.semester = semester;
     }
-
-
 
     public TimeSlot getTimeSlot() {
         return this.timeSlot;

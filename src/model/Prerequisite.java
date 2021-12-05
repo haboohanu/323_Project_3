@@ -14,13 +14,18 @@ public class Prerequisite {
     @JoinColumn(name = "COURSE_ID")
     private Course course;
 
+    @Id
+    @ManyToOne
+    private Course course_prereq;
+
 
     public Prerequisite() {
     }
 
-    public Prerequisite(char minimumGrade, Course course) {
+    public Prerequisite(char minimumGrade, Course course, Course coursePrereq) {
         this.minimumGrade = minimumGrade;
         this.course = course;
+        //this.coursePrereq = coursePrereq;
     }
 
     public char getMinimumGrade() {
@@ -38,6 +43,14 @@ public class Prerequisite {
     public void setCourse(Course course) {
         this.course = course;
     }
+
+    // public Course getCoursePrereq() {
+    //     return this.coursePrereq;
+    // }
+
+    // public void setCoursePrereq(Course coursePrereq) {
+    //     this.coursePrereq = coursePrereq;
+    // }
 
     
 }

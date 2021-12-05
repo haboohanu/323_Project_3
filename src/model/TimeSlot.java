@@ -21,8 +21,8 @@ public class TimeSlot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TIMESLOT_SURROGATE")
-    private int timeSlotSurrogate;
+    @Column(name = "TIMESLOT_ID")
+    private int timeSlotId;
 
 
     public TimeSlot() {
@@ -60,11 +60,11 @@ public class TimeSlot {
     }
 
     public int getTimeSlotId() {
-        return this.timeSlotSurrogate;
+        return this.timeSlotId;
     }
 
     public void setTimeSlotId(int timeSlotId) {
-        this.timeSlotSurrogate = timeSlotId;
+        this.timeSlotId = timeSlotId;
     }
     
 

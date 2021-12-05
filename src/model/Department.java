@@ -15,11 +15,8 @@ public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "DEPARTMENT_SURROGATE")
-    private int departmentSurrogate;
-
-    // @Column(name = "DEPARTMENT_ID")
-    // private int departmentId;
+    @Column(name = "DEPARTMENT_ID")
+    private int departmentId;
 
     @OneToMany(mappedBy = "department")
     private List<Course> courses;
@@ -49,13 +46,13 @@ public class Department {
         this.abbreviation = abbreviation;
     }
 
-    // public int getDepartmentId() {
-    //     return this.departmentId;
-    // }
+    public int getDepartmentId() {
+        return this.departmentId;
+    }
 
-    // public void setDepartmentId(int departmentId) {
-    //     this.departmentId = departmentId;
-    // }
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
+    }
 
     public List<Course> getCourses() {
         return this.courses;
@@ -65,13 +62,6 @@ public class Department {
         this.courses = courses;
     }
 
-    public int getDepartmentSurrogate() {
-        return this.departmentSurrogate;
-    }
-
-    public void setDepartmentSurrogate(int departmentSurrogate) {
-        this.departmentSurrogate = departmentSurrogate;
-    }
 
 
     
