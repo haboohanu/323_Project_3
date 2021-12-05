@@ -22,7 +22,7 @@ public class Section {
     private Semester semester;
 
     //@JoinColumn(name = "STUDENT_SURROGATE")
-    @ManyToMany(mappedBy = "ENROLLMENT")
+    @ManyToMany(mappedBy = "enrollments")
     private List<Student> enrolled_students;
 
     @JoinColumn(name = "TIMESLOT_ID")

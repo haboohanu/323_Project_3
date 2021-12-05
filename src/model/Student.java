@@ -23,7 +23,7 @@ public class Student {
         inverseJoinColumns = @JoinColumn(name = "SECTION_ID")
     )
     @ManyToMany
-    private Set<Section> enrollments;
+    private List<Section> enrollments;
 
 
     public Student() {
