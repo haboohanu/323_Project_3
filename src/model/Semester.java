@@ -69,5 +69,10 @@ public class Semester {
         this.sections = sections;
     }
 
+    public void addSection(Section s){
+        this.sections.add(s);
+        s.setSemester(this);
+    }
+
     
 }

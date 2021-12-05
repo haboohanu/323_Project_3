@@ -294,6 +294,17 @@ public class App {
         System.out.println("Enter the name of student");
         Scanner input = new Scanner(System.in);
         String name = input.nextLine();
+        var namedStudent = em.createQuery("SELECT s FROM STUDENTS s WHERE "
+        + "s.name = ?1", Student.class);
+        namedStudent.setParameter(1, name);
+        try {
+            Student requested = namedStudent.getSingleResult();
+            System.out.println("Your requested student: " + requested);
+        
+        }
+        catch (NoResultException ex) {
+            System.out.println("Student with name '" + name + "' not found.");
+        }
 
     }
 

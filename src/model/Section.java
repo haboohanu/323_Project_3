@@ -21,7 +21,6 @@ public class Section {
     @ManyToOne
     private Semester semester;
 
-    //@JoinColumn(name = "STUDENT_SURROGATE")
     @ManyToMany(mappedBy = "enrollments")
     private List<Student> enrolled_students;
 
@@ -85,6 +84,24 @@ public class Section {
     public void setCourse(Course course) {
         this.course = course;
     }
+
+    public int getSectionId() {
+        return this.sectionId;
+    }
+
+    public void setSectionId(int sectionId) {
+        this.sectionId = sectionId;
+    }    
+
+    public List<Student> getEnrolled_students() {
+        return this.enrolled_students;
+    }
+
+    public void setEnrolled_students(List<Student> enrolled_students) {
+        this.enrolled_students = enrolled_students;
+    }
+
+
 
 
 

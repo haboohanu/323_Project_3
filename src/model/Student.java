@@ -58,9 +58,19 @@ public class Student {
         this.transcripts = transcripts;
     }
 
+    public List<Section> getEnrollments() {
+        return this.enrollments;
+    }
+
+    public void setEnrollments(List<Section> enrollments) {
+        this.enrollments = enrollments;
+    }
+
     public double getGpa(){
         return 0;
     }
+
+    
 
     
 
