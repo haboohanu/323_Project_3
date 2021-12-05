@@ -10,6 +10,10 @@ public class Section {
     private int maxCapacity;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "SECTION_ID")
+    private int sectionId;
+
     @Column(name = "SECTION_NUMBER")
     private int sectionNumber;
     
@@ -18,8 +22,8 @@ public class Section {
     private Semester semester;
 
     //@JoinColumn(name = "STUDENT_SURROGATE")
-    @ManyToMany
-    private List<Student> students;
+    @ManyToMany(mappedBy = "ENROLLMENT")
+    private List<Student> enrolled_students;
 
     @JoinColumn(name = "TIMESLOT_ID")
     @ManyToOne
@@ -33,11 +37,10 @@ public class Section {
     public Section() {
     }
 
-    public Section(int maxCapacity, int sectionNumber, Semester semester, List<Student> students, TimeSlot timeSlot, Course course) {
+    public Section(Course course, int sectionNumber, Semester semester, TimeSlot timeSlot, int maxCapacity) {
         this.maxCapacity = maxCapacity;
         this.sectionNumber = sectionNumber;
         this.semester = semester;
-        this.students = students;
         this.timeSlot = timeSlot;
         this.course = course;
     }

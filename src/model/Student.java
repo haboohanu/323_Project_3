@@ -17,6 +17,14 @@ public class Student {
     @OneToMany(mappedBy = "student")
     private List<Transcript> transcripts;
 
+    @JoinTable(
+        name = "ENROLLMENTS", 
+        joinColumns = @JoinColumn(name = "STUDENT_ID"), 
+        inverseJoinColumns = @JoinColumn(name = "SECTION_ID")
+    )
+    @ManyToMany
+    private Set<Section> enrollments;
+
 
     public Student() {
     }

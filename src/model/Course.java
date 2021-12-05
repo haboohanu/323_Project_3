@@ -39,12 +39,11 @@ public class Course {
     }
 
 
-    public Course(Department department, String number, String title, int units, List<Prerequisite> prerequisites) {
+    public Course(Department department, String number, String title, int units) {
         this.department = department;
         this.number = number;
         this.title = title;
         this.units = units;
-        this.prerequisites = prerequisites;
     }
 
 

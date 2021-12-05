@@ -203,6 +203,45 @@ public class App {
         TimeSlot t3 = new TimeSlot((byte)(42), LocalTime.of(12, 0), LocalTime.of(12,50));
         TimeSlot t4 = new TimeSlot((byte)(2), LocalTime.of(8, 0), LocalTime.of(10,45));
         
+        Course c1 = new Course(d1, "174", "Introduction to Programming and Problem Solving", 3);
+        Course c2 = new Course(d1, "274", "Data Structures", 3);
+        Course c3 = new Course(d1, "277", "Object Oriented Application Programming", 3);
+        Course c4 = new Course(d1, "282", "Advanced C++", 3);
+        Course c5 = new Course(d2, "101A", "Fundamentals of Italian", 4);
+        Course c6 = new Course(d2, "101B", "Fundamentals of Italian", 4);
+
+        Prerequisite p1 = new Prerequisite('C', c2, c1);
+        Prerequisite p2 = new Prerequisite('C', c3, c2);
+        Prerequisite p3 = new Prerequisite('C', c4, c2);
+        Prerequisite p4 = new Prerequisite('C', c4, c3);
+        Prerequisite p5 = new Prerequisite('D', c6, c5);
+
+        Section a = new Section(c1, 1, s1, t1, 105);
+        Section b = new Section(c2, 1, s2, t2, 140);
+        Section c = new Section(c3, 3, s2, t4, 35);
+        Section d = new Section(c4, 5, s3, t2, 35);
+        Section e = new Section(c3, 1, s3, t1, 35);
+        Section f = new Section(c4, 7, s3, t1, 35);
+        Section g = new Section(c5, 1, s3, t3, 25);
+
+        Student st1 = new Student("Naomi Nagata", 123456789);
+        Student st2 = new Student("James Holden", 987654321);
+        Student st3 = new Student("Amos Burton", 555555555);
+
+        //Naomi
+        Transcript tr1 = new Transcript("A", a, st1);
+        Transcript tr2 = new Transcript("A", b, st1);
+        Transcript tr3 = new Transcript("A", c, st1);
+        //James
+        Transcript tr4 = new Transcript("C", a, st2);
+        Transcript tr5 = new Transcript("C", b, st2);
+        Transcript tr6 = new Transcript("C", c, st2);
+        //Amos
+        Transcript tr7 = new Transcript("C", a, st3);
+        Transcript tr8 = new Transcript("B", b, st3);
+        Transcript tr9 = new Transcript("D", c, st3);
+
+
         em.getTransaction().begin();
         em.persist(s1);
         em.persist(s2);
@@ -213,6 +252,37 @@ public class App {
         em.persist(t2);
         em.persist(t3);
         em.persist(t4);
+        em.persist(c1);
+        em.persist(c2);
+        em.persist(c3);
+        em.persist(c4);
+        em.persist(c5);
+        em.persist(c6);
+        em.persist(p1);
+        em.persist(p2);
+        em.persist(p3);
+        em.persist(p4);
+        em.persist(p5);
+        em.persist(a);
+        em.persist(b);
+        em.persist(c);
+        em.persist(d);
+        em.persist(e);
+        em.persist(f);
+        em.persist(g);
+        em.persist(st1);
+        em.persist(st2);
+        em.persist(st3);
+        em.persist(tr1);
+        em.persist(tr2);
+        em.persist(tr3);
+        em.persist(tr4);
+        em.persist(tr5);
+        em.persist(tr6);
+        em.persist(tr7);
+        em.persist(tr8);
+        em.persist(tr9);
+
 
         em.getTransaction().commit();
         

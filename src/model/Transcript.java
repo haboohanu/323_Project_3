@@ -11,7 +11,7 @@ public class Transcript {
     private String gradeEarned;
 
     @Id
-    @JoinColumn(name = "SECTION_NUMBER")
+    @JoinColumn(name = "SECTION_ID")
     @ManyToOne
     private Section section;
 

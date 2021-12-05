@@ -22,10 +22,10 @@ public class Prerequisite {
     public Prerequisite() {
     }
 
-    public Prerequisite(char minimumGrade, Course course, Course coursePrereq) {
+    public Prerequisite(char minimumGrade, Course course, Course course_prereq) {
         this.minimumGrade = minimumGrade;
         this.course = course;
-        //this.coursePrereq = coursePrereq;
+        this.course_prereq = course_prereq;
     }
 
     public char getMinimumGrade() {
@@ -44,13 +44,13 @@ public class Prerequisite {
         this.course = course;
     }
 
-    // public Course getCoursePrereq() {
-    //     return this.coursePrereq;
-    // }
+    public Course getCoursePrereq() {
+        return this.course_prereq;
+    }
 
-    // public void setCoursePrereq(Course coursePrereq) {
-    //     this.coursePrereq = coursePrereq;
-    // }
+    public void setCoursePrereq(Course course_prereq) {
+        this.course_prereq = course_prereq;
+    }
 
     
 }
