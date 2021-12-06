@@ -25,6 +25,8 @@ public class App {
         TimeSlot t4 = new TimeSlot((byte)(2), LocalTime.of(8, 0), LocalTime.of(10,45));
         
         Course c1 = new Course(d1, "174", "Introduction to Programming and Problem Solving", 3);
+        //Course EXPLODE = new Course(d1, "174", "This should cause an ERROR", 7);
+        //em.persist(EXPLODE);//test unique key enforcement
         Course c2 = new Course(d1, "274", "Data Structures", 3);
         Course c3 = new Course(d1, "277", "Object Oriented Application Programming", 3);
         Course c4 = new Course(d1, "282", "Advanced C++", 3);
@@ -121,7 +123,9 @@ public class App {
         try {
             Student requested = namedStudent.getSingleResult();
             System.out.println("Your requested student: " + requested);
-        
+            
+            System.out.println("Your  student gpa: " + requested.getGpa());
+
         }
         catch (NoResultException ex) {
             System.out.println("Student with name '" + name + "' not found.");
@@ -177,6 +181,30 @@ public class App {
         //basicDemos();
         //associationDemos();
         //EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
-        menu();
+        
+        instantiate();
+
+
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
+        EntityManager em = factory.createEntityManager();
+        var namedStudent = em.createQuery("SELECT s FROM STUDENTS s", Student.class);
+        var studentList = namedStudent.getResultList();
+
+        for(Student s : studentList)
+        {
+            System.out.println(s.getName());
+            System.out.println(s.getGpa());
+        }        
+        /*
+        var transcripts = em.createQuery("SELECT s FROM TRANSCRIPTS s", Transcript.class);
+        var transcriptList = transcripts.getResultList();
+
+        for(Transcript s : transcriptList)
+        {
+            
+            System.out.println(s.getStudent().getName() + s.getGradeEarned());
+        }
+        */
+        //menu();
     }
 }

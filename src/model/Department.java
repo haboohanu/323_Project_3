@@ -10,7 +10,11 @@ import jakarta.persistence.*;
 //         @UniqueConstraint(columnNames = {"DEPARTMENT_ID"})
 // )
 public class Department {
+    
+    @Column(length = 128)
     private String name;
+
+    @Column(length = 8)
     private String abbreviation;
 
     @Id

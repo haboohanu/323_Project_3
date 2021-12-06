@@ -1,0 +1,14 @@
+For "int" data types, you must decide the most appropriate Java data type depending on the reasonable largest value the field can store.
+We have not met this requirement
+
+You do need to use @NotNull or @Column(nullable = false) 
+to indicate columns that cannot be null. 
+(This is not necessary for primary keys, 
+which can never be null.)
+
+We need helper methods for bidirectional associations (more in instructions)
+I wrote one helper method so creating a transcript adds itself to the student it's linked to
+Not sure what other need them 
+
+Check out Prerequisites.java line 26. I think there's an error there
+but I want to see what you think

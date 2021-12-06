@@ -9,13 +9,21 @@ public class Prerequisite {
     
     private char minimumGrade;
 
+
+    
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PREREQUISITE_ID")
+    private int transcriptId;
+
+    //@Id
     @ManyToOne
     @JoinColumn(name = "COURSE_ID")
     private Course course;
 
-    @Id
+    //@Id
     @ManyToOne
+    //need @JoinColumn field here? testing
     private Course course_prereq;
 
 

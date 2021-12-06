@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 @Entity(name = "COURSES")
 @Table(
     uniqueConstraints = 
-        @UniqueConstraint(columnNames = {"NUMBER"})
+        @UniqueConstraint(columnNames = {"NUMBER","DEPARTMENT_ID"})
 )
 public class Course {
 

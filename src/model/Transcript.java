@@ -10,12 +10,18 @@ public class Transcript {
     @Column(length = 2)
     private String gradeEarned;
 
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "TRANSCRIPT_ID")
+    private int transcriptId;
+
+    //@Id
     @JoinColumn(name = "SECTION_ID")
     @ManyToOne
     private Section section;
 
-    @Id
+    //@Id
     @JoinColumn(name = "STUDENT_ID")
     @ManyToOne
     private Student student;
@@ -28,6 +34,9 @@ public class Transcript {
         this.gradeEarned = gradeEarned;
         this.section = section;
         this.student = student;
+
+        student.addTranscript(this);
+        //section.addTranscript(this);
     }
 
     public String getGradeEarned() {

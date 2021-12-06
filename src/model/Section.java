@@ -5,6 +5,10 @@ import java.util.*;
 import jakarta.persistence.*;
 
 @Entity(name = "SECTIONS")
+@Table(
+    uniqueConstraints = 
+        @UniqueConstraint(columnNames = {"SEMESTER_ID","COURSE_ID","SECTION_NUMBER"})
+)
 public class Section {
 
     private int maxCapacity;
