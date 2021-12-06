@@ -48,6 +48,10 @@ public class Section {
         this.course = course;
     }
 
+    public String toString(){
+        return this.course + "-" + this.sectionNumber;
+    }
+
 
     public int getMaxCapacity() {
         return this.maxCapacity;

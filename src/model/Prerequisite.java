@@ -16,14 +16,11 @@ public class Prerequisite {
     @Column(name = "PREREQUISITE_ID")
     private int transcriptId;
 
-    //@Id
     @ManyToOne
     @JoinColumn(name = "COURSE_ID")
     private Course course;
 
-    //@Id
     @ManyToOne
-    //need @JoinColumn field here? testing
     private Course course_prereq;
 
 

@@ -97,4 +97,8 @@ public class Student {
         return gpa;
     }
 
+    public void registerForSection(Section s){
+
+    }
+
 }

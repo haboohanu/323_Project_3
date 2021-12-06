@@ -46,6 +46,10 @@ public class Course {
         this.units = units;
     }
 
+    @Override
+    public String toString(){
+        return this.department.getAbbreviation() + " " + this.number;
+    }
 
     public String getNumber() {
         return this.number;
@@ -87,12 +91,12 @@ public class Course {
         this.department = department;
     }
 
-    public int getCourseSurrogate() {
+    public int getCourseId() {
         return this.courseId;
     }
 
-    public void setCourseSurrogate(int courseSurrogate) {
-        this.courseId = courseSurrogate;
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
  
 

@@ -143,11 +143,40 @@ public class App {
     public static void register(){
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
         EntityManager em = factory.createEntityManager();
-        instantiate();
         var semesters = em.createQuery("SELECT s FROM SEMESTERS s",Semester.class).getResultList();
         for(Semester s : semesters){
             System.out.println(s);
         }
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter student name");
+        String name = input.nextLine();
+        var namedStudent = em.createQuery("SELECT s FROM STUDENTS s WHERE "
+        + "s.name = ?1", Student.class);
+        namedStudent.setParameter(1, name);
+        System.out.println("Enter course section");
+        String courseSection = input.nextLine();
+        String[] tokens = courseSection.split("-| ");
+        for(String i:tokens){
+            System.out.println(i);
+        }
+        String department = tokens[0];
+        String course = tokens[1];
+        String section = tokens[2];
+        var registerDepartment = em.createQuery("SELECT d FROM DEPARTMENTS d WHERE "
+        + "d.abbreviation = ?1 ",Department.class);
+        registerDepartment.setParameter(1, department);
+        Department registerDepartmentResult = registerDepartment.getSingleResult();
+        var registerDepartmentId = registerDepartmentResult.getDepartmentId();
+        System.out.println(registerDepartmentId);
+        var registerCourse = em.createQuery("SELECT c FROM COURSES c WHERE "
+        + "c.department.departmentId = " + registerDepartmentId + " AND c.number = " + course, Course.class).getSingleResult();
+        System.out.println(registerCourse);
+        var registerCourseId = registerCourse.getCourseId();
+        // var registerSection = em.createQuery("SELECT s FROM SECTIONS s WHERE "
+        // + "s.course.courseId = " + registerCourseId + " AND s.section = " + section, Section.class).getResultList();
+        // System.out.println(registerSection);
+
+
 
 
     }
@@ -202,7 +231,8 @@ public class App {
             System.out.println(s.getName());
             System.out.println(s.getGpa());
         }       
-        lookup(); 
+        //lookup();
+        register(); 
         /*
         var transcripts = em.createQuery("SELECT s FROM TRANSCRIPTS s", Transcript.class);
         var transcriptList = transcripts.getResultList();
