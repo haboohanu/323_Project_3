@@ -161,7 +161,8 @@ public class App {
         }
         String department = tokens[0];
         String course = tokens[1];
-        String section = tokens[2];
+        String section = tokens[2].replaceFirst("^0+(?!$)", "");
+
         var registerDepartment = em.createQuery("SELECT d FROM DEPARTMENTS d WHERE "
         + "d.abbreviation = ?1 ",Department.class);
         registerDepartment.setParameter(1, department);
@@ -172,9 +173,9 @@ public class App {
         + "c.department.departmentId = " + registerDepartmentId + " AND c.number = " + course, Course.class).getSingleResult();
         System.out.println(registerCourse);
         var registerCourseId = registerCourse.getCourseId();
-        // var registerSection = em.createQuery("SELECT s FROM SECTIONS s WHERE "
-        // + "s.course.courseId = " + registerCourseId + " AND s.section = " + section, Section.class).getResultList();
-        // System.out.println(registerSection);
+        var registerSection = em.createQuery("SELECT s FROM SECTIONS s WHERE "
+        + "s.course.courseId = " + registerCourseId + " AND s.sectionNumber = " + section, Section.class).getSingleResult();
+        System.out.println(registerSection);
 
 
 
