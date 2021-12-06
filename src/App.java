@@ -153,6 +153,7 @@ public class App {
         var namedStudent = em.createQuery("SELECT s FROM STUDENTS s WHERE "
         + "s.name = ?1", Student.class);
         namedStudent.setParameter(1, name);
+        Student student = namedStudent.getSingleResult();
         System.out.println("Enter course section");
         String courseSection = input.nextLine();
         String[] tokens = courseSection.split("-| ");
@@ -168,15 +169,17 @@ public class App {
         registerDepartment.setParameter(1, department);
         Department registerDepartmentResult = registerDepartment.getSingleResult();
         var registerDepartmentId = registerDepartmentResult.getDepartmentId();
-        System.out.println(registerDepartmentId);
         var registerCourse = em.createQuery("SELECT c FROM COURSES c WHERE "
         + "c.department.departmentId = " + registerDepartmentId + " AND c.number = " + course, Course.class).getSingleResult();
         System.out.println(registerCourse);
         var registerCourseId = registerCourse.getCourseId();
-        var registerSection = em.createQuery("SELECT s FROM SECTIONS s WHERE "
+        Section registerSection = em.createQuery("SELECT s FROM SECTIONS s WHERE "
         + "s.course.courseId = " + registerCourseId + " AND s.sectionNumber = " + section, Section.class).getSingleResult();
         System.out.println(registerSection);
 
+        student.registerForSection(registerSection);
+
+        
 
 
 
