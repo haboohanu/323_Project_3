@@ -101,4 +101,8 @@ public class Student {
 
     }
 
+    public boolean canAdd(Section s){
+        return true;
+    }
+
 }
