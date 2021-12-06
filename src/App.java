@@ -218,13 +218,11 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {
-        //basicDemos();
-        //associationDemos();
-        //EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
         
-        instantiate();
+        instantiate();//run every time or DB is empty
 
-
+        //test getStudents and student GPA
+        /*
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
         EntityManager em = factory.createEntityManager();
         var namedStudent = em.createQuery("SELECT s FROM STUDENTS s", Student.class);
@@ -235,8 +233,9 @@ public class App {
             System.out.println(s.getName());
             System.out.println(s.getGpa());
         }       
-        //lookup();
-        register(); 
+        */
+
+        //test transcripts 
         /*
         var transcripts = em.createQuery("SELECT s FROM TRANSCRIPTS s", Transcript.class);
         var transcriptList = transcripts.getResultList();
@@ -247,6 +246,23 @@ public class App {
             System.out.println(s.getStudent().getName() + s.getGradeEarned());
         }
         */
-        //menu();
+        
+        //test Sections/semester
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
+        EntityManager em = factory.createEntityManager();
+        var semesterQuery = em.createQuery("SELECT s FROM SEMESTERS s", Semester.class);
+        var semesterList = semesterQuery.getResultList();
+
+        for(Semester semester : semesterList)
+        {
+            System.out.println(semester);
+            for (Section section : semester.getSections())
+            {
+                System.out.println(section);
+            }
+            System.out.println();
+
+        }
+        //menu();//this should be the only thing in main when completed
     }
 }

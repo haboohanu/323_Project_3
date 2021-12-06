@@ -28,6 +28,7 @@ public class Student {
         this.name = name;
         this.studentID = studentID;
         transcripts = new ArrayList<Transcript>();
+        enrollments = new ArrayList<Section>();
     }
 
     @Override
@@ -58,7 +59,6 @@ public class Student {
         this.transcripts = transcripts;
     }
 
-    //testing
     public void addTranscript(Transcript transcript)
     {
         transcripts.add(transcript);
@@ -101,8 +101,34 @@ public class Student {
 
     }
 
+
     public boolean canAdd(Section s){
+
+        //1) Already Passed with C?
+        for(Transcript t: transcripts)
+        {
+            boolean hasTakenThisClass = t.getSection().getCourse().getCourseId()== s.getCourse().getCourseId();
+            if(hasTakenThisClass)
+            {
+                char grade = t.getGradeEarned().charAt(0);
+                if(grade == 'C' || grade == 'B' || grade == 'A')
+                    return false;//student already passed class
+            }
+        }
+
+        //2 and 4) Already enrolled in this/another section of the course?
+        for (Section enrolled : enrollments)
+        {
+            if(enrolled.getCourse().getCourseId()==s.getCourse().getCourseId())
+            {
+                return false; //you are already enrolled in this Course
+            }
+        }
+
+        //
+        
         return true;
+        
     }
 
 }

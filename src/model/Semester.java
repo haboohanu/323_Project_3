@@ -29,6 +29,7 @@ public class Semester {
     public Semester(String title, LocalDate startDate) {
         this.title = title;
         this.startDate = startDate;
+        sections = new ArrayList<Section>();
     }
 
     @Override
