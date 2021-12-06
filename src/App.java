@@ -2,6 +2,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Scanner;
+import java.util.*;
+
+import javax.sound.midi.SysexMessage;
 
 import jakarta.persistence.*;
 
@@ -123,8 +126,12 @@ public class App {
         try {
             Student requested = namedStudent.getSingleResult();
             System.out.println("Your requested student: " + requested);
-            
-            System.out.println("Your  student gpa: " + requested.getGpa());
+            var studentTranscripts = requested.getTranscripts();
+            Collections.sort(studentTranscripts);
+            for(Transcript t:studentTranscripts){
+                System.out.println(t);
+            }
+            System.out.println("Your student gpa: " + requested.getGpa());
 
         }
         catch (NoResultException ex) {
@@ -194,7 +201,8 @@ public class App {
         {
             System.out.println(s.getName());
             System.out.println(s.getGpa());
-        }        
+        }       
+        lookup(); 
         /*
         var transcripts = em.createQuery("SELECT s FROM TRANSCRIPTS s", Transcript.class);
         var transcriptList = transcripts.getResultList();

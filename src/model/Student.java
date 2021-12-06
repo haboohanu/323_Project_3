@@ -30,6 +30,10 @@ public class Student {
         transcripts = new ArrayList<Transcript>();
     }
 
+    @Override
+    public String toString(){
+        return this.name + " " + this.studentID;
+    }
     public String getName() {
         return this.name;
     }

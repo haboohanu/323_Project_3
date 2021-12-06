@@ -5,7 +5,7 @@ import java.util.*;
 import jakarta.persistence.*;
 
 @Entity(name = "TRANSCRIPTS")
-public class Transcript {
+public class Transcript implements Comparable<Transcript>{
 
     @Column(length = 2)
     private String gradeEarned;
@@ -39,6 +39,11 @@ public class Transcript {
         //section.addTranscript(this);
     }
 
+    @Override
+    public String toString(){
+        return this.section.getCourse().getDepartment().getAbbreviation() + " " + this.section.getCourse().getNumber() 
+        + ", " + this.section.getSemester().getTitle() + ". Grade earned: " + this.gradeEarned;
+    }
     public String getGradeEarned() {
         return this.gradeEarned;
     }
@@ -61,6 +66,19 @@ public class Transcript {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+
+    public int compareTo(Transcript t) {
+        if(this.section.getSemester().getStartDate().isAfter(t.section.getSemester().getStartDate())){
+            return -1;
+        }
+        else if(this.section.getSemester().getStartDate().isAfter(t.section.getSemester().getStartDate())){
+            return 1;
+        }
+        else{
+            return 0;
+        }
     }
     
     
