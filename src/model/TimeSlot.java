@@ -6,24 +6,27 @@ import java.util.*;
 import jakarta.persistence.*;
 
 @Entity(name = "TIMESLOTS")
-@Table(
-    uniqueConstraints = 
-        @UniqueConstraint(columnNames = {"DAYSOFWEEK", "STARTTIME", "ENDTIME"})
-)
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "DAYSOFWEEK", "STARTTIME", "ENDTIME" }))
 public class TimeSlot {
 
-    
+    public static final byte SUNDAY = 1 << 6,
+            MONDAY = 1 << 5,
+            TUESDAY = 1 << 4,
+            WEDNESDAY = 1 << 3,
+            THURSDAY = 1 << 2,
+            FRIDAY = 1 << 1,
+            SATURDAY = 1 << 0;
+
     private byte daysOfWeek;
-    
+
     private LocalTime startTime;
-    
+
     private LocalTime endTime;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TIMESLOT_ID")
     private int timeSlotId;
-
 
     public TimeSlot() {
     }
@@ -33,7 +36,6 @@ public class TimeSlot {
         this.startTime = startTime;
         this.endTime = endTime;
     }
-
 
     public byte getDaysOfWeek() {
         return this.daysOfWeek;
@@ -66,9 +68,29 @@ public class TimeSlot {
     public void setTimeSlotId(int timeSlotId) {
         this.timeSlotId = timeSlotId;
     }
-    
 
+    public String daysOfWeekToString() {
+        String toReturn = "";
+        if ((daysOfWeek & MONDAY) != 0)
+            toReturn += "M";
+        if ((daysOfWeek & TUESDAY) != 0)
+            toReturn += "Tu";
+        if ((daysOfWeek & WEDNESDAY) != 0)
+            toReturn += "W";
+        if ((daysOfWeek & THURSDAY) != 0)
+            toReturn += "Th";
+        if ((daysOfWeek & FRIDAY) != 0)
+            toReturn += "F";
+        if ((daysOfWeek & SATURDAY) != 0)
+            toReturn += "Sa";
+        if ((daysOfWeek & SUNDAY) != 0)
+            toReturn += "Su";
 
+        return toReturn;
+    }
 
-    
+    public String toString() {
+        return daysOfWeekToString() + " " + startTime + " " + endTime;
+    }
+
 }

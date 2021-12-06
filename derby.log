@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Sun Dec 05 21:46:24 PST 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-017d-8e47-68ca-000005c443e8 
+Mon Dec 06 14:53:42 PST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-017d-91f3-f000-000005bc8a00 
 on database directory /Users/jacob/Google Drive/School/2021 Fall/323 Database Fundamentals/CECS323LAB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@42110406 
 Loaded from file:/Users/jacob/git-repos/323_Project_3/lib/derby.jar
 java.vendor=Azul Systems, Inc.

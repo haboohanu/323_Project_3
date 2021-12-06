@@ -43,13 +43,17 @@ public class Section {
     public Section(Course course, int sectionNumber, Semester semester, TimeSlot timeSlot, int maxCapacity) {
         this.maxCapacity = maxCapacity;
         this.sectionNumber = sectionNumber;
-        this.semester = semester;
+        //this.semester = semester;
+        semester.addSection(this);//handles creating bidirectional association
         this.timeSlot = timeSlot;
         this.course = course;
     }
 
     public String toString(){
-        return this.course + "-" + this.sectionNumber;
+        String toReturn = course + " section " + sectionNumber+", " + semester.getTitle() + ", ";
+        
+        toReturn += timeSlot + ", capacity " + maxCapacity;
+        return  toReturn;
     }
 
 
