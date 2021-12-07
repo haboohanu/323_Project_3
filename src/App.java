@@ -9,27 +9,29 @@ import javax.sound.midi.SysexMessage;
 import jakarta.persistence.*;
 
 import model.*;
+import model.Student.RegistrationResult;
+
 public class App {
-    
-    public static void instantiate(){
+
+    public static void instantiate() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
         EntityManager em = factory.createEntityManager();
 
-        Semester s1 = new Semester("Spring 2021", LocalDate.of(2021,1,19));
-        Semester s2 = new Semester("Fall 2021", LocalDate.of(2021,8,17));
-        Semester s3 = new Semester("Spring 2022", LocalDate.of(2022,1,20));
+        Semester s1 = new Semester("Spring 2021", LocalDate.of(2021, 1, 19));
+        Semester s2 = new Semester("Fall 2021", LocalDate.of(2021, 8, 17));
+        Semester s3 = new Semester("Spring 2022", LocalDate.of(2022, 1, 20));
 
         Department d1 = new Department("Computer Engineering and Computer Science", "CECS");
         Department d2 = new Department("Italian Studies", "ITAL");
 
-        TimeSlot t1 = new TimeSlot((byte)(40), LocalTime.of(12,30), LocalTime.of(13,45));
-        TimeSlot t2 = new TimeSlot((byte)(20), LocalTime.of(14, 0), LocalTime.of(15,15));
-        TimeSlot t3 = new TimeSlot((byte)(42), LocalTime.of(12, 0), LocalTime.of(12,50));
-        TimeSlot t4 = new TimeSlot((byte)(2), LocalTime.of(8, 0), LocalTime.of(10,45));
-        
+        TimeSlot t1 = new TimeSlot((byte) (40), LocalTime.of(12, 30), LocalTime.of(13, 45));
+        TimeSlot t2 = new TimeSlot((byte) (20), LocalTime.of(14, 0), LocalTime.of(15, 15));
+        TimeSlot t3 = new TimeSlot((byte) (42), LocalTime.of(12, 0), LocalTime.of(12, 50));
+        TimeSlot t4 = new TimeSlot((byte) (2), LocalTime.of(8, 0), LocalTime.of(10, 45));
+
         Course c1 = new Course(d1, "174", "Introduction to Programming and Problem Solving", 3);
-        //Course EXPLODE = new Course(d1, "174", "This should cause an ERROR", 7);
-        //em.persist(EXPLODE);//test unique key enforcement
+        // Course EXPLODE = new Course(d1, "174", "This should cause an ERROR", 7);
+        // em.persist(EXPLODE);//test unique key enforcement
         Course c2 = new Course(d1, "274", "Data Structures", 3);
         Course c3 = new Course(d1, "277", "Object Oriented Application Programming", 3);
         Course c4 = new Course(d1, "282", "Advanced C++", 3);
@@ -54,19 +56,18 @@ public class App {
         Student st2 = new Student("James Holden", 987654321);
         Student st3 = new Student("Amos Burton", 555555555);
 
-        //Naomi
+        // Naomi
         Transcript tr1 = new Transcript("A", a, st1);
         Transcript tr2 = new Transcript("A", b, st1);
         Transcript tr3 = new Transcript("A", c, st1);
-        //James
+        // James
         Transcript tr4 = new Transcript("C", a, st2);
         Transcript tr5 = new Transcript("C", b, st2);
         Transcript tr6 = new Transcript("C", c, st2);
-        //Amos
+        // Amos
         Transcript tr7 = new Transcript("C", a, st3);
         Transcript tr8 = new Transcript("B", b, st3);
         Transcript tr9 = new Transcript("D", c, st3);
-
 
         em.getTransaction().begin();
         em.persist(s1);
@@ -109,55 +110,53 @@ public class App {
         em.persist(tr8);
         em.persist(tr9);
 
-
         em.getTransaction().commit();
-        
+
     }
 
-    public static void lookup(){
+    public static void lookup() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
         EntityManager em = factory.createEntityManager();
         System.out.println("Enter the name of student");
         Scanner input = new Scanner(System.in);
         String name = input.nextLine();
         var namedStudent = em.createQuery("SELECT s FROM STUDENTS s WHERE "
-        + "s.name = ?1", Student.class);
+                + "s.name = ?1", Student.class);
         namedStudent.setParameter(1, name);
         try {
             Student requested = namedStudent.getSingleResult();
             System.out.println("Your requested student: " + requested);
             var studentTranscripts = requested.getTranscripts();
             Collections.sort(studentTranscripts);
-            for(Transcript t:studentTranscripts){
+            for (Transcript t : studentTranscripts) {
                 System.out.println(t);
             }
             System.out.println("Your student gpa: " + requested.getGpa());
 
-        }
-        catch (NoResultException ex) {
+        } catch (NoResultException ex) {
             System.out.println("Student with name '" + name + "' not found.");
         }
 
     }
 
-    public static void register(){
+    public static void register() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
         EntityManager em = factory.createEntityManager();
-        var semesters = em.createQuery("SELECT s FROM SEMESTERS s",Semester.class).getResultList();
-        for(Semester s : semesters){
+        var semesters = em.createQuery("SELECT s FROM SEMESTERS s", Semester.class).getResultList();
+        for (Semester s : semesters) {
             System.out.println(s);
         }
         Scanner input = new Scanner(System.in);
         System.out.println("Enter student name");
         String name = input.nextLine();
         var namedStudent = em.createQuery("SELECT s FROM STUDENTS s WHERE "
-        + "s.name = ?1", Student.class);
+                + "s.name = ?1", Student.class);
         namedStudent.setParameter(1, name);
         Student student = namedStudent.getSingleResult();
         System.out.println("Enter course section");
         String courseSection = input.nextLine();
         String[] tokens = courseSection.split("-| ");
-        for(String i:tokens){
+        for (String i : tokens) {
             System.out.println(i);
         }
         String department = tokens[0];
@@ -165,29 +164,27 @@ public class App {
         String section = tokens[2].replaceFirst("^0+(?!$)", "");
 
         var registerDepartment = em.createQuery("SELECT d FROM DEPARTMENTS d WHERE "
-        + "d.abbreviation = ?1 ",Department.class);
+                + "d.abbreviation = ?1 ", Department.class);
         registerDepartment.setParameter(1, department);
         Department registerDepartmentResult = registerDepartment.getSingleResult();
         var registerDepartmentId = registerDepartmentResult.getDepartmentId();
         var registerCourse = em.createQuery("SELECT c FROM COURSES c WHERE "
-        + "c.department.departmentId = " + registerDepartmentId + " AND c.number = " + course, Course.class).getSingleResult();
+                + "c.department.departmentId = " + registerDepartmentId + " AND c.number = " + course, Course.class)
+                .getSingleResult();
         System.out.println(registerCourse);
         var registerCourseId = registerCourse.getCourseId();
         Section registerSection = em.createQuery("SELECT s FROM SECTIONS s WHERE "
-        + "s.course.courseId = " + registerCourseId + " AND s.sectionNumber = " + section, Section.class).getSingleResult();
+                + "s.course.courseId = " + registerCourseId + " AND s.sectionNumber = " + section, Section.class)
+                .getSingleResult();
         System.out.println(registerSection);
 
         student.registerForSection(registerSection);
 
-        
-
-
-
     }
 
-    public static void menu(){
+    public static void menu() {
         Scanner input = new Scanner(System.in);
-        while(true){
+        while (true) {
             System.out.println("Input a number option");
             System.out.println("Menu:");
             System.out.println("(1) Instantiate model");
@@ -195,74 +192,132 @@ public class App {
             System.out.println("(3) Register for a course");
             System.out.println("(0) Exit");
             int i = input.nextInt();
-            if(i==1){
+            if (i == 1) {
                 System.out.println("Initializing...");
                 instantiate();
-            }
-            else if(i==2){
+            } else if (i == 2) {
                 System.out.println("Looking up student...");
                 lookup();
-            }
-            else if(i==3){
+            } else if (i == 3) {
                 System.out.println("Registering course...");
                 register();
-            }
-            else if(i==0){
+            } else if (i == 0) {
                 System.out.println("Bye.");
                 break;
-            }
-            else{
+            } else {
                 System.out.println("Invalid input.\nTry again.");
             }
         }
     }
 
     public static void main(String[] args) throws Exception {
-        
-        instantiate();//run every time or DB is empty
 
-        //test getStudents and student GPA
-        /*
+        instantiate();// run every time or DB is empty
+
+        // */
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
         EntityManager em = factory.createEntityManager();
-        var namedStudent = em.createQuery("SELECT s FROM STUDENTS s", Student.class);
-        var studentList = namedStudent.getResultList();
+        var studentListQuery = em.createQuery("SELECT s FROM STUDENTS s", Student.class);
+        var studentList = studentListQuery.getResultList();
 
-        for(Student s : studentList)
-        {
-            System.out.println(s.getName());
-            System.out.println(s.getGpa());
-        }       
-        */
+        //finds a specific student
+        System.out.println("\n\n");
+        var studentQuery = em.createQuery("SELECT s FROM STUDENTS s where s.name = 'Naomi Nagata'", Student.class);
+        Student Naomi = studentQuery.getSingleResult();
+        System.out.println(Naomi);
 
-        //test transcripts 
-        /*
-        var transcripts = em.createQuery("SELECT s FROM TRANSCRIPTS s", Transcript.class);
-        var transcriptList = transcripts.getResultList();
+        //finds a section by section number
+        var SectionQuery = em.createQuery("SELECT s FROM SECTIONS s where s.sectionId = 2", Section.class);
+        Section CECS174Section = SectionQuery.getSingleResult();
+        System.out.println(CECS174Section);
+        System.out.println("\n\n");
 
-        for(Transcript s : transcriptList)
-        {
-            
-            System.out.println(s.getStudent().getName() + s.getGradeEarned());
+        /*/ Shows each student transcript
+        for (Student student : studentList) {
+            System.out.println(student + " Transcript:");
+            for (Transcript transcript : student.getTranscripts()) {
+
+                // CECS174 = transcript.getSection();
+                System.out.println(transcript);
+                // System.out.println(transcript.getSection().getCourse().getNumber());
+            }
+
         }
-        */
-        
-        //test Sections/semester
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
-        EntityManager em = factory.createEntityManager();
-        var semesterQuery = em.createQuery("SELECT s FROM SEMESTERS s", Semester.class);
-        var semesterList = semesterQuery.getResultList();
+        //*/
+        //attempt to register for section
+        var result = Naomi.registerForSection(CECS174Section);
+        System.out.println(result);
 
-        for(Semester semester : semesterList)
-        {
-            System.out.println(semester);
-            for (Section section : semester.getSections())
-            {
+
+        //shows current enrollents, empty at time or writing
+        for (Student student : studentList) {
+            System.out.println(student + " Current Enrollents:");
+            for (Section section : student.getEnrollments()) {
                 System.out.println(section);
             }
-            System.out.println();
 
         }
-        //menu();//this should be the only thing in main when completed
+        // */
+
+        // test transcripts
+        /*
+         * var transcripts = em.createQuery("SELECT s FROM TRANSCRIPTS s",
+         * Transcript.class);
+         * var transcriptList = transcripts.getResultList();
+         * 
+         * for(Transcript s : transcriptList)
+         * {
+         * 
+         * System.out.println(s.getStudent().getName() + s.getGradeEarned());
+         * }
+         */
+
+        // test Sections/semester
+        /*
+         * EntityManagerFactory factory =
+         * Persistence.createEntityManagerFactory("demoDb");
+         * EntityManager em = factory.createEntityManager();
+         * var semesterQuery = em.createQuery("SELECT s FROM SEMESTERS s",
+         * Semester.class);
+         * var semesterList = semesterQuery.getResultList();
+         * 
+         * for(Semester semester : semesterList)
+         * {
+         * System.out.println(semester);
+         * for (Section section : semester.getSections())
+         * {
+         * System.out.println(section);
+         * }
+         * System.out.println();
+         * 
+         * }
+         */
+
+        // COURSES
+        /*
+         * /
+         * EntityManagerFactory factory =
+         * Persistence.createEntityManagerFactory("demoDb");
+         * EntityManager em = factory.createEntityManager();
+         * var courseQuery = em.createQuery("SELECT c FROM COURSES c", Course.class);
+         * var courseList = courseQuery.getResultList();
+         * 
+         * for(Course course : courseList)
+         * {
+         * System.out.println("PREREQS FOR " + course);
+         * for (Prerequisite prereq : course.getPrerequisites())
+         * {
+         * //System.out.println("HERE");
+         * 
+         * System.out.println(prereq);
+         * //System.out.println(prereq.getCoursePrereq());
+         * }
+         * System.out.println();
+         * 
+         * }
+         * //
+         */
+
+        // menu();//this should be the only thing in main when completed
     }
 }
