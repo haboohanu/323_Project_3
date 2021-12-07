@@ -38,6 +38,7 @@ public class Section {
 
 
     public Section() {
+        enrolled_students = new ArrayList<Student>();
     }
 
     public Section(Course course, int sectionNumber, Semester semester, TimeSlot timeSlot, int maxCapacity) {
@@ -47,6 +48,9 @@ public class Section {
         semester.addSection(this);//handles creating bidirectional association
         this.timeSlot = timeSlot;
         this.course = course;
+
+        enrolled_students = new ArrayList<Student>();
+
     }
 
     public String toString(){
@@ -104,6 +108,10 @@ public class Section {
     public void setSectionId(int sectionId) {
         this.sectionId = sectionId;
     }    
+    public void enrollStudent(Student s)
+    {
+        enrolled_students.add(s);
+    }
 
     public List<Student> getEnrolled_students() {
         return this.enrolled_students;

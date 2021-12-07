@@ -31,6 +31,8 @@ public class Prerequisite {
         this.minimumGrade = minimumGrade;
         this.course = course;
         this.course_prereq = course_prereq;
+
+        course.addPrereq(this);
     }
 
     public char getMinimumGrade() {
@@ -57,5 +59,8 @@ public class Prerequisite {
         this.course_prereq = course_prereq;
     }
 
-    
+    public String toString()
+    {
+        return course_prereq + " precedes " + course;
+    }
 }

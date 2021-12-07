@@ -32,9 +32,10 @@ public class Student {
     }
 
     @Override
-    public String toString(){
-        return this.name + " " + this.studentID;
+    public String toString() {
+        return this.name + ", id: " + this.studentID;
     }
+
     public String getName() {
         return this.name;
     }
@@ -59,8 +60,7 @@ public class Student {
         this.transcripts = transcripts;
     }
 
-    public void addTranscript(Transcript transcript)
-    {
+    public void addTranscript(Transcript transcript) {
         transcripts.add(transcript);
     }
 
@@ -97,37 +97,49 @@ public class Student {
         return gpa;
     }
 
-    public void registerForSection(Section s){
+    public enum RegistrationResult {
+        SUCCESS,
+        ALREADY_PASSED,
+        ENROLLED_IN_SECTION,
+        NO_PREREQUISITES,
+        ENROLLED_IN_ANOTHER,
+        TIME_CONFLICT
+    };
 
-    }
+    public RegistrationResult registerForSection(Section s) {
 
+        RegistrationResult toReturn = RegistrationResult.SUCCESS;
 
-    public boolean canAdd(Section s){
-
-        //1) Already Passed with C?
-        for(Transcript t: transcripts)
-        {
-            boolean hasTakenThisClass = t.getSection().getCourse().getCourseId()== s.getCourse().getCourseId();
-            if(hasTakenThisClass)
-            {
+        // 1) Already Passed with C?
+        for (Transcript t : transcripts) {
+            boolean hasTakenThisClass = t.getSection().getCourse().getCourseId() == s.getCourse().getCourseId();
+            if (hasTakenThisClass) {
                 char grade = t.getGradeEarned().charAt(0);
-                if(grade == 'C' || grade == 'B' || grade == 'A')
-                    return false;//student already passed class
+                if (grade == 'C' || grade == 'B' || grade == 'A')
+                    return RegistrationResult.ALREADY_PASSED;// student already passed class
             }
         }
 
-        //2 and 4) Already enrolled in this/another section of the course?
-        for (Section enrolled : enrollments)
-        {
-            if(enrolled.getCourse().getCourseId()==s.getCourse().getCourseId())
-            {
-                return false; //you are already enrolled in this Course
+        // 2 and 4) Already enrolled in this/another section of the course?
+        for (Section enrolled : enrollments) {
+            if (enrolled.getCourse().getCourseId() == s.getCourse().getCourseId()) {
+                if (enrolled.getSectionId() == s.getSectionId())
+                    return RegistrationResult.ENROLLED_IN_SECTION; // you are already enrolled in this Course
+                else
+                    return RegistrationResult.ENROLLED_IN_ANOTHER;
             }
+
         }
 
-        //
-        
-        return true;
+        /*
+         * /
+         * if(toReturn == RegistrationResult.SUCCESS)
+         * {
+         * enrollments.add(s);
+         * s.enrollStudent(this);
+         * }
+         * */
+          return toReturn;
         
     }
 

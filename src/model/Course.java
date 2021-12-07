@@ -28,6 +28,11 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private List<Prerequisite> prerequisites;
 
+    void addPrereq(Prerequisite prereq)
+    {
+        prerequisites.add(prereq);
+    }
+
     @ManyToOne
     @JoinColumn(name = "DEPARTMENT_ID")
     private Department department;
@@ -36,6 +41,7 @@ public class Course {
 
 
     public Course() {
+        prerequisites = new ArrayList<Prerequisite>();
     }
 
 
@@ -44,6 +50,8 @@ public class Course {
         this.number = number;
         this.title = title;
         this.units = units;
+        prerequisites = new ArrayList<Prerequisite>();
+
     }
 
     @Override
