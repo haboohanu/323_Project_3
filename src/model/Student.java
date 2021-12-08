@@ -150,7 +150,25 @@ public class Student {
         }
 
         //5)Student is enrolled in another section with a time conflict
-        //TODO
+        //WORKS
+        for (Section enrolled: enrollments){
+            if(enrolled.getSemester()==s.getSemester())
+            {
+                if (enrolled.getTimeSlot().getDaysOfWeek() == s.getTimeSlot().getDaysOfWeek()){
+                    var enrolledStart = enrolled.getTimeSlot().getStartTime();
+                    var enrolledEnd = enrolled.getTimeSlot().getEndTime();
+                    var registerStart = s.getTimeSlot().getStartTime();
+                    var registerEnd = s.getTimeSlot().getEndTime();
+                    if((registerStart.isAfter(enrolledStart) && registerStart.isBefore(enrolledEnd)) || (registerEnd.isAfter(enrolledStart) && registerEnd.isBefore(enrolledEnd))){
+                        return RegistrationResult.TIME_CONFLICT;
+                    }
+                }
+            }
+        }
+
+
+
+
 
         if (toReturn == RegistrationResult.SUCCESS) {//WORKS
             enrollments.add(s);

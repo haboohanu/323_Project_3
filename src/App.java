@@ -21,6 +21,8 @@ public class App {
     static Section e;
     static Section f;
     static Section g;
+    //test conflict
+    static Section t;
 
     public static void instantiate() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
@@ -60,6 +62,8 @@ public class App {
          e = new Section(c3, 1, s3, t1, 35);//277
          f = new Section(c4, 7, s3, t1, 35);//282
          g = new Section(c5, 1, s3, t3, 25);//101A
+
+         
         
          //delete other testing references and uncomment below
         // Section a = new Section(c1, 1, s1, t1, 105);
@@ -73,6 +77,11 @@ public class App {
         Student st1 = new Student("Naomi Nagata", 123456789);
         Student st2 = new Student("James Holden", 987654321);
         Student st3 = new Student("Amos Burton", 555555555);
+        
+        //test time conflict
+        Student jimmy = new Student("Jimmy", 326031);
+        TimeSlot time = new TimeSlot((byte) (40), LocalTime.of(13,44), LocalTime.of(14, 30));
+        t = new Section(c5, 2, s1, time, 35);
 
         // Naomi
         Transcript tr1 = new Transcript("A", a, st1);
@@ -86,6 +95,8 @@ public class App {
         Transcript tr7 = new Transcript("C", a, st3);
         Transcript tr8 = new Transcript("B", b, st3);
         Transcript tr9 = new Transcript("D", c, st3);
+
+        
 
         em.getTransaction().begin();
         em.persist(s1);
@@ -127,6 +138,12 @@ public class App {
         em.persist(tr7);
         em.persist(tr8);
         em.persist(tr9);
+
+        //test timeconflict
+        em.persist(jimmy);
+        em.persist(t);
+        em.persist(time);
+        
 
         em.getTransaction().commit();
 
@@ -189,14 +206,13 @@ public class App {
         var registerCourse = em.createQuery("SELECT c FROM COURSES c WHERE "
                 + "c.department.departmentId = " + registerDepartmentId + " AND c.number = " + course, Course.class)
                 .getSingleResult();
-        System.out.println(registerCourse);
         var registerCourseId = registerCourse.getCourseId();
         Section registerSection = em.createQuery("SELECT s FROM SECTIONS s WHERE "
                 + "s.course.courseId = " + registerCourseId + " AND s.sectionNumber = " + section, Section.class)
                 .getSingleResult();
-        System.out.println(registerSection);
 
-        student.registerForSection(registerSection);
+        var result = student.registerForSection(registerSection);
+        System.out.println(result);
 
     }
 
@@ -279,17 +295,27 @@ public class App {
         // f = 282
         // g = 101A
 
+        System.out.println("Adding section to Amos");
         var result = Amos.registerForSection(b);
         System.out.println(result);
 
-        // shows current enrollents, empty at time or writing
-        for (Student student : studentList) {
-            System.out.println(student + " Current Enrollents:");
-            for (Section section : student.getEnrollments()) {
-                System.out.println(section);
-            }
+        System.out.println("Testing time conflict");
+        studentQuery = em.createQuery("SELECT s FROM STUDENTS s where s.name = 'Jimmy'", Student.class);
+        Student Jimmy = studentQuery.getSingleResult();
+        System.out.println(Jimmy);
+        result = Jimmy.registerForSection(a);
+        System.out.println(result);
+        result = Jimmy.registerForSection(t);
+        System.out.println(result);
 
-        }
+        // shows current enrollents, empty at time or writing
+        // for (Student student : studentList) {
+        //     System.out.println(student + " Current Enrollents:");
+        //     for (Section section : student.getEnrollments()) {
+        //         System.out.println(section);
+        //     }
+
+        // }
         // */
 
         // test transcripts
@@ -309,18 +335,20 @@ public class App {
 
         //EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
         //EntityManager em = factory.createEntityManager();
-        var semesterQuery = em.createQuery("SELECT s FROM SEMESTERS s",
-                Semester.class);
-        var semesterList = semesterQuery.getResultList();
+        
+        //prints semesters and their sections
+        // var semesterQuery = em.createQuery("SELECT s FROM SEMESTERS s",
+        //         Semester.class);
+        // var semesterList = semesterQuery.getResultList();
 
-        for (Semester semester : semesterList) {
-            System.out.println(semester);
-            for (Section section : semester.getSections()) {
-                System.out.println(section);
-            }
-            System.out.println();
+        // for (Semester semester : semesterList) {
+        //     System.out.println(semester);
+        //     for (Section section : semester.getSections()) {
+        //         System.out.println(section);
+        //     }
+        //     System.out.println();
 
-        }
+        // }
 
         // COURSES
         /*
