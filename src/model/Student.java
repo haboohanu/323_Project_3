@@ -107,9 +107,10 @@ public class Student {
     };
 
     public RegistrationResult registerForSection(Section s) {
+        System.out.println("HEREEEEEE");
         RegistrationResult toReturn = RegistrationResult.SUCCESS;
 
-        // 1) Already Passed with C?
+        // 1) Already Passed with C? WORKS
         for (Transcript t : transcripts) {
             boolean hasTakenThisClass = t.getSection().getCourse().getCourseId() == s.getCourse().getCourseId();
             if (hasTakenThisClass) {
@@ -119,7 +120,7 @@ public class Student {
             }
         }
 
-        // 2 and 4) Already enrolled in this/another section of the course?
+        // 2 and 4) Already enrolled in this/another section of the course? WORKS
         for (Section enrolled : enrollments) {
             if (enrolled.getCourse().getCourseId() == s.getCourse().getCourseId()) {
                 if (enrolled.getSectionId() == s.getSectionId())
@@ -128,7 +129,7 @@ public class Student {
                     return RegistrationResult.ENROLLED_IN_ANOTHER;
             }
         }
-        //3) Student has not met prerequisites
+        //3) Student has not met prerequisites WORKS
         for (Prerequisite prereq : s.getCourse().getPrerequisites())
         {
             boolean foundInTranscript = false;
@@ -147,6 +148,9 @@ public class Student {
             if(!foundInTranscript)
                 return RegistrationResult.NO_PREREQUISITES;
         }
+
+        //5)Student is enrolled in another section with a time conflict
+
 
         if (toReturn == RegistrationResult.SUCCESS) {
             enrollments.add(s);
