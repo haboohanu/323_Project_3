@@ -150,9 +150,9 @@ public class Student {
         }
 
         //5)Student is enrolled in another section with a time conflict
+        //TODO
 
-
-        if (toReturn == RegistrationResult.SUCCESS) {
+        if (toReturn == RegistrationResult.SUCCESS) {//WORKS
             enrollments.add(s);
             s.enrollStudent(this);
         }
