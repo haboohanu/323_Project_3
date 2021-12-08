@@ -54,7 +54,7 @@ public class Section {
     }
 
     public String toString(){
-        String toReturn = course + " section " + sectionNumber+", " + semester.getTitle() + ", ";
+        String toReturn = "SectionId: " + sectionId+ ", "+course + " section " + sectionNumber+", " + semester.getTitle() + ", ";
         
         toReturn += timeSlot + ", capacity " + maxCapacity;
         return  toReturn;

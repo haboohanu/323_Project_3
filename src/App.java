@@ -13,6 +13,15 @@ import model.Student.RegistrationResult;
 
 public class App {
 
+    //placed globally for better testing - delete before turning in if possible
+    static Section a;
+    static Section b;
+    static Section c;
+    static Section d;
+    static Section e;
+    static Section f;
+    static Section g;
+
     public static void instantiate() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
         EntityManager em = factory.createEntityManager();
@@ -44,13 +53,22 @@ public class App {
         Prerequisite p4 = new Prerequisite('C', c4, c3);
         Prerequisite p5 = new Prerequisite('D', c6, c5);
 
-        Section a = new Section(c1, 1, s1, t1, 105);
-        Section b = new Section(c2, 1, s2, t2, 140);
-        Section c = new Section(c3, 3, s2, t4, 35);
-        Section d = new Section(c4, 5, s3, t2, 35);
-        Section e = new Section(c3, 1, s3, t1, 35);
-        Section f = new Section(c4, 7, s3, t1, 35);
-        Section g = new Section(c5, 1, s3, t3, 25);
+         a = new Section(c1, 1, s1, t1, 105);//174
+         b = new Section(c2, 1, s2, t2, 140);//274
+         c = new Section(c3, 3, s2, t4, 35);//277
+         d = new Section(c4, 5, s3, t2, 35);//282
+         e = new Section(c3, 1, s3, t1, 35);//277
+         f = new Section(c4, 7, s3, t1, 35);//282
+         g = new Section(c5, 1, s3, t3, 25);//101A
+        
+         //delete other testing references and uncomment below
+        // Section a = new Section(c1, 1, s1, t1, 105);
+        // Section b = new Section(c2, 1, s2, t2, 140);
+        // Section c = new Section(c3, 3, s2, t4, 35);
+        // Section d = new Section(c4, 5, s3, t2, 35);
+        // Section e = new Section(c3, 1, s3, t1, 35);
+        // Section f = new Section(c4, 7, s3, t1, 35);
+        // Section g = new Section(c5, 1, s3, t3, 25);
 
         Student st1 = new Student("Naomi Nagata", 123456789);
         Student st2 = new Student("James Holden", 987654321);
@@ -220,36 +238,51 @@ public class App {
         var studentListQuery = em.createQuery("SELECT s FROM STUDENTS s", Student.class);
         var studentList = studentListQuery.getResultList();
 
-        //finds a specific student
+        // finds a specific student
         System.out.println("\n\n");
-        var studentQuery = em.createQuery("SELECT s FROM STUDENTS s where s.name = 'Naomi Nagata'", Student.class);
+        var studentQuery = em.createQuery("SELECT s FROM STUDENTS s where s.name = 'Amos Burton'", Student.class);
+        Student Amos = studentQuery.getSingleResult();
+        System.out.println(Amos);
+
+        studentQuery = em.createQuery("SELECT s FROM STUDENTS s where s.name = 'Naomi Nagata'", Student.class);
         Student Naomi = studentQuery.getSingleResult();
         System.out.println(Naomi);
 
-        //finds a section by section number
-        var SectionQuery = em.createQuery("SELECT s FROM SECTIONS s where s.sectionId = 2", Section.class);
-        Section CECS174Section = SectionQuery.getSingleResult();
-        System.out.println(CECS174Section);
-        System.out.println("\n\n");
+        // finds a section by section number DOESN"T WORK PK CHANGES
+        // var SectionQuery = em.createQuery("SELECT s FROM SECTIONS s where s.sectionId = 2", Section.class);
+        // Section CECS174Section = SectionQuery.getSingleResult();
+        // System.out.println(CECS174Section);
+        // System.out.println("\n\n");
 
-        /*/ Shows each student transcript
-        for (Student student : studentList) {
-            System.out.println(student + " Transcript:");
-            for (Transcript transcript : student.getTranscripts()) {
+        /*
+         * / Shows each student transcript
+         * for (Student student : studentList) {
+         * System.out.println(student + " Transcript:");
+         * for (Transcript transcript : student.getTranscripts()) {
+         * 
+         * // CECS174 = transcript.getSection();
+         * System.out.println(transcript);
+         * // System.out.println(transcript.getSection().getCourse().getNumber());
+         * }
+         * 
+         * }
+         * //
+         */
+        // attempt to register for section
 
-                // CECS174 = transcript.getSection();
-                System.out.println(transcript);
-                // System.out.println(transcript.getSection().getCourse().getNumber());
-            }
 
-        }
-        //*/
-        //attempt to register for section
-        var result = Naomi.registerForSection(CECS174Section);
+        // a = 174
+        // b = 274
+        // c = 277
+        // d = 282
+        // e = 277
+        // f = 282
+        // g = 101A
+
+        var result = Amos.registerForSection(b);
         System.out.println(result);
 
-
-        //shows current enrollents, empty at time or writing
+        // shows current enrollents, empty at time or writing
         for (Student student : studentList) {
             System.out.println(student + " Current Enrollents:");
             for (Section section : student.getEnrollments()) {
@@ -273,25 +306,21 @@ public class App {
          */
 
         // test Sections/semester
-        /*
-         * EntityManagerFactory factory =
-         * Persistence.createEntityManagerFactory("demoDb");
-         * EntityManager em = factory.createEntityManager();
-         * var semesterQuery = em.createQuery("SELECT s FROM SEMESTERS s",
-         * Semester.class);
-         * var semesterList = semesterQuery.getResultList();
-         * 
-         * for(Semester semester : semesterList)
-         * {
-         * System.out.println(semester);
-         * for (Section section : semester.getSections())
-         * {
-         * System.out.println(section);
-         * }
-         * System.out.println();
-         * 
-         * }
-         */
+
+        //EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
+        //EntityManager em = factory.createEntityManager();
+        var semesterQuery = em.createQuery("SELECT s FROM SEMESTERS s",
+                Semester.class);
+        var semesterList = semesterQuery.getResultList();
+
+        for (Semester semester : semesterList) {
+            System.out.println(semester);
+            for (Section section : semester.getSections()) {
+                System.out.println(section);
+            }
+            System.out.println();
+
+        }
 
         // COURSES
         /*

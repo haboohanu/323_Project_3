@@ -107,7 +107,6 @@ public class Student {
     };
 
     public RegistrationResult registerForSection(Section s) {
-
         RegistrationResult toReturn = RegistrationResult.SUCCESS;
 
         // 1) Already Passed with C?
@@ -128,19 +127,33 @@ public class Student {
                 else
                     return RegistrationResult.ENROLLED_IN_ANOTHER;
             }
-
+        }
+        //3) Student has not met prerequisites
+        for (Prerequisite prereq : s.getCourse().getPrerequisites())
+        {
+            boolean foundInTranscript = false;
+            Course neededCourse = prereq.getCoursePrereq();
+            for(Transcript transcript : transcripts)
+            {
+                if(transcript.getSection().getCourse().getCourseId() == neededCourse.getCourseId())
+                {
+                    
+                char grade = transcript.getGradeEarned().charAt(0);
+                char minimum = prereq.getMinimumGrade();
+                if (grade<=minimum)//best grade is smallest numerically ie A<B<C<D<F
+                    foundInTranscript = true;
+                }
+            }
+            if(!foundInTranscript)
+                return RegistrationResult.NO_PREREQUISITES;
         }
 
-        /*
-         * /
-         * if(toReturn == RegistrationResult.SUCCESS)
-         * {
-         * enrollments.add(s);
-         * s.enrollStudent(this);
-         * }
-         * */
-          return toReturn;
-        
+        if (toReturn == RegistrationResult.SUCCESS) {
+            enrollments.add(s);
+            s.enrollStudent(this);
+        }
+        return toReturn;
+
     }
 
 }
