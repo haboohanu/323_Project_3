@@ -15,11 +15,11 @@ public class Student {
     private int studentID;
 
     @OneToMany(mappedBy = "student")
-    private List<Transcript> transcripts;
+    private List<Transcript> transcripts = new ArrayList<Transcript>();
 
-    @JoinTable(name = "ENROLLMENTS", joinColumns = @JoinColumn(name = "STUDENT_ID"), inverseJoinColumns = @JoinColumn(name = "SECTION_ID"))
     @ManyToMany
-    private List<Section> enrollments;
+    @JoinTable(name = "ENROLLMENTS", joinColumns = @JoinColumn(name = "STUDENT_ID"), inverseJoinColumns = @JoinColumn(name = "SECTION_ID"))
+    private List<Section> enrollments = new ArrayList<Section>();
 
     public Student() {
     }
@@ -27,8 +27,8 @@ public class Student {
     public Student(String name, int studentID) {
         this.name = name;
         this.studentID = studentID;
-        transcripts = new ArrayList<Transcript>();
-        enrollments = new ArrayList<Section>();
+        //transcripts = new ArrayList<Transcript>();
+        //enrollments = new ArrayList<Section>();
     }
 
     @Override
@@ -107,7 +107,6 @@ public class Student {
     };
 
     public RegistrationResult registerForSection(Section s) {
-        System.out.println("HEREEEEEE");
         RegistrationResult toReturn = RegistrationResult.SUCCESS;
 
         // 1) Already Passed with C? WORKS
@@ -138,7 +137,7 @@ public class Student {
             {
                 if(transcript.getSection().getCourse().getCourseId() == neededCourse.getCourseId())
                 {
-                    
+
                 char grade = transcript.getGradeEarned().charAt(0);
                 char minimum = prereq.getMinimumGrade();
                 if (grade<=minimum)//best grade is smallest numerically ie A<B<C<D<F
@@ -154,7 +153,7 @@ public class Student {
         for (Section enrolled: enrollments){
             if(enrolled.getSemester()==s.getSemester())
             {
-                if (enrolled.getTimeSlot().getDaysOfWeek() == s.getTimeSlot().getDaysOfWeek()){
+                if ((enrolled.getTimeSlot().getDaysOfWeek() & s.getTimeSlot().getDaysOfWeek()) != 0 ){
                     var enrolledStart = enrolled.getTimeSlot().getStartTime();
                     var enrolledEnd = enrolled.getTimeSlot().getEndTime();
                     var registerStart = s.getTimeSlot().getStartTime();
@@ -171,7 +170,7 @@ public class Student {
 
 
         if (toReturn == RegistrationResult.SUCCESS) {//WORKS
-            enrollments.add(s);
+            this.getEnrollments().add(s);
             s.enrollStudent(this);
         }
         return toReturn;

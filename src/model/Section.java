@@ -26,7 +26,7 @@ public class Section {
     private Semester semester;
 
     @ManyToMany(mappedBy = "enrollments")
-    private List<Student> enrolled_students;
+    private List<Student> enrolled_students = new ArrayList<Student>();
 
     @JoinColumn(name = "TIMESLOT_ID")
     @ManyToOne
@@ -38,7 +38,7 @@ public class Section {
 
 
     public Section() {
-        enrolled_students = new ArrayList<Student>();
+        //enrolled_students = new ArrayList<Student>();
     }
 
     public Section(Course course, int sectionNumber, Semester semester, TimeSlot timeSlot, int maxCapacity) {
@@ -49,7 +49,7 @@ public class Section {
         this.timeSlot = timeSlot;
         this.course = course;
 
-        enrolled_students = new ArrayList<Student>();
+        //enrolled_students = new ArrayList<Student>();
 
     }
 

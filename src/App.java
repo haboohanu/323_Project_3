@@ -13,7 +13,7 @@ import model.Student.RegistrationResult;
 
 public class App {
 
-    //placed globally for better testing - delete before turning in if possible
+    // placed globally for better testing - delete before turning in if possible
     static Section a;
     static Section b;
     static Section c;
@@ -21,8 +21,7 @@ public class App {
     static Section e;
     static Section f;
     static Section g;
-    //test conflict
-    static Section t;
+    static Section testSection;
 
     public static void instantiate() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
@@ -40,6 +39,8 @@ public class App {
         TimeSlot t3 = new TimeSlot((byte) (42), LocalTime.of(12, 0), LocalTime.of(12, 50));
         TimeSlot t4 = new TimeSlot((byte) (2), LocalTime.of(8, 0), LocalTime.of(10, 45));
 
+        //TimeSlot testTime = new TimeSlot((byte) (2), LocalTime.of(11, 30), LocalTime.of(12, 45));
+
         Course c1 = new Course(d1, "174", "Introduction to Programming and Problem Solving", 3);
         // Course EXPLODE = new Course(d1, "174", "This should cause an ERROR", 7);
         // em.persist(EXPLODE);//test unique key enforcement
@@ -55,17 +56,17 @@ public class App {
         Prerequisite p4 = new Prerequisite('C', c4, c3);
         Prerequisite p5 = new Prerequisite('D', c6, c5);
 
-         a = new Section(c1, 1, s1, t1, 105);//174
-         b = new Section(c2, 1, s2, t2, 140);//274
-         c = new Section(c3, 3, s2, t4, 35);//277
-         d = new Section(c4, 5, s3, t2, 35);//282
-         e = new Section(c3, 1, s3, t1, 35);//277
-         f = new Section(c4, 7, s3, t1, 35);//282
-         g = new Section(c5, 1, s3, t3, 25);//101A
-
-         
+        a = new Section(c1, 1, s1, t1, 105);// 174
+        b = new Section(c2, 1, s2, t2, 140);// 274
+        c = new Section(c3, 3, s2, t4, 35);// 277
+        d = new Section(c4, 5, s3, t2, 35);// 282
+        e = new Section(c3, 1, s3, t1, 35);// 277
+        f = new Section(c4, 7, s3, t1, 35);// 282
+        g = new Section(c5, 1, s3, t3, 25);// 101A
         
-         //delete other testing references and uncomment below
+        //testSection = new Section(c1, 1, s3, testTime, 10);
+
+        // delete other testing references and uncomment below
         // Section a = new Section(c1, 1, s1, t1, 105);
         // Section b = new Section(c2, 1, s2, t2, 140);
         // Section c = new Section(c3, 3, s2, t4, 35);
@@ -75,13 +76,11 @@ public class App {
         // Section g = new Section(c5, 1, s3, t3, 25);
 
         Student st1 = new Student("Naomi Nagata", 123456789);
+        st1.getEnrollments().add(d);
         Student st2 = new Student("James Holden", 987654321);
         Student st3 = new Student("Amos Burton", 555555555);
-        
-        //test time conflict
-        Student jimmy = new Student("Jimmy", 326031);
-        TimeSlot time = new TimeSlot((byte) (40), LocalTime.of(13,44), LocalTime.of(14, 30));
-        t = new Section(c5, 2, s1, time, 35);
+
+        //Student testStudent = new Student("Jimmy", 1);
 
         // Naomi
         Transcript tr1 = new Transcript("A", a, st1);
@@ -95,8 +94,6 @@ public class App {
         Transcript tr7 = new Transcript("C", a, st3);
         Transcript tr8 = new Transcript("B", b, st3);
         Transcript tr9 = new Transcript("D", c, st3);
-
-        
 
         em.getTransaction().begin();
         em.persist(s1);
@@ -139,12 +136,6 @@ public class App {
         em.persist(tr8);
         em.persist(tr9);
 
-        //test timeconflict
-        em.persist(jimmy);
-        em.persist(t);
-        em.persist(time);
-        
-
         em.getTransaction().commit();
 
     }
@@ -152,6 +143,7 @@ public class App {
     public static void lookup() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
         EntityManager em = factory.createEntityManager();
+        System.out.println("Look up");
         System.out.println("Enter the name of student");
         Scanner input = new Scanner(System.in);
         String name = input.nextLine();
@@ -177,42 +169,58 @@ public class App {
     public static void register() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
         EntityManager em = factory.createEntityManager();
+        System.out.println("Register:");
         var semesters = em.createQuery("SELECT s FROM SEMESTERS s", Semester.class).getResultList();
         for (Semester s : semesters) {
             System.out.println(s);
         }
         Scanner input = new Scanner(System.in);
-        System.out.println("Enter student name");
-        String name = input.nextLine();
-        var namedStudent = em.createQuery("SELECT s FROM STUDENTS s WHERE "
-                + "s.name = ?1", Student.class);
-        namedStudent.setParameter(1, name);
-        Student student = namedStudent.getSingleResult();
-        System.out.println("Enter course section");
-        String courseSection = input.nextLine();
-        String[] tokens = courseSection.split("-| ");
-        for (String i : tokens) {
-            System.out.println(i);
+        try {
+            System.out.println("Enter semester (ex: Spring 2022)");
+            String semester = input.nextLine();
+            var namedSemester = em.createQuery("SELECT s FROM SEMESTERS s WHERE "
+                    + "s.title = ?1", Semester.class);
+            namedSemester.setParameter(1, semester);
+            System.out.println("Enter student name");
+            String name = input.nextLine();
+            var registerSemesterId = namedSemester.getSingleResult().getSemesterId();
+            var namedStudent = em.createQuery("SELECT s FROM STUDENTS s WHERE "
+                    + "s.name = ?1", Student.class);
+            namedStudent.setParameter(1, name);
+            Student student = namedStudent.getSingleResult();
+            System.out.println("Enter course section");
+            String courseSection = input.nextLine();
+            String[] tokens = courseSection.split("-| ");
+            String department = tokens[0];
+            String course = tokens[1];
+            String section = tokens[2].replaceFirst("^0+(?!$)", "");
+
+            var registerDepartment = em.createQuery("SELECT d FROM DEPARTMENTS d WHERE "
+                    + "d.abbreviation = ?1 ", Department.class);
+            registerDepartment.setParameter(1, department);
+            Department registerDepartmentResult = registerDepartment.getSingleResult();
+            var registerDepartmentId = registerDepartmentResult.getDepartmentId();
+            var registerCourse = em.createQuery("SELECT c FROM COURSES c WHERE "
+                    + "c.department.departmentId = " + registerDepartmentId + " AND c.number = ?1", Course.class);
+            registerCourse.setParameter(1, course);
+            var registerCourseResult = registerCourse.getSingleResult();
+            var registerCourseId = registerCourseResult.getCourseId();
+            var registerSection = em.createQuery("SELECT s FROM SECTIONS s WHERE "
+                    + "s.course.courseId = " + registerCourseId + " AND s.sectionNumber = ?1 AND s.semester.semesterId = " + registerSemesterId, Section.class);
+            registerSection.setParameter(1, Integer.parseInt(section));
+            var registerSectionResult = registerSection.getSingleResult();
+
+            var result = student.registerForSection(registerSectionResult);
+            System.out.println(result);
+            if (result == RegistrationResult.SUCCESS){
+                em.getTransaction().begin();
+                em.persist(student);
+                em.getTransaction().commit();
+            }
+        } catch (Exception e) {
+            System.out.println("Invalid Input.");
         }
-        String department = tokens[0];
-        String course = tokens[1];
-        String section = tokens[2].replaceFirst("^0+(?!$)", "");
 
-        var registerDepartment = em.createQuery("SELECT d FROM DEPARTMENTS d WHERE "
-                + "d.abbreviation = ?1 ", Department.class);
-        registerDepartment.setParameter(1, department);
-        Department registerDepartmentResult = registerDepartment.getSingleResult();
-        var registerDepartmentId = registerDepartmentResult.getDepartmentId();
-        var registerCourse = em.createQuery("SELECT c FROM COURSES c WHERE "
-                + "c.department.departmentId = " + registerDepartmentId + " AND c.number = " + course, Course.class)
-                .getSingleResult();
-        var registerCourseId = registerCourse.getCourseId();
-        Section registerSection = em.createQuery("SELECT s FROM SECTIONS s WHERE "
-                + "s.course.courseId = " + registerCourseId + " AND s.sectionNumber = " + section, Section.class)
-                .getSingleResult();
-
-        var result = student.registerForSection(registerSection);
-        System.out.println(result);
 
     }
 
@@ -246,26 +254,28 @@ public class App {
 
     public static void main(String[] args) throws Exception {
 
-        instantiate();// run every time or DB is empty
-
+        //instantiate();// run every time or DB is empty
+        //lookup();
+        //register();
         // */
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
-        EntityManager em = factory.createEntityManager();
-        var studentListQuery = em.createQuery("SELECT s FROM STUDENTS s", Student.class);
-        var studentList = studentListQuery.getResultList();
+        //EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
+        //EntityManager em = factory.createEntityManager();
+        // var studentListQuery = em.createQuery("SELECT s FROM STUDENTS s", Student.class);
+        // var studentList = studentListQuery.getResultList();
 
-        // finds a specific student
-        System.out.println("\n\n");
-        var studentQuery = em.createQuery("SELECT s FROM STUDENTS s where s.name = 'Amos Burton'", Student.class);
-        Student Amos = studentQuery.getSingleResult();
-        System.out.println(Amos);
+        // // finds a specific student
+        // System.out.println("\n\n");
+        // var studentQuery = em.createQuery("SELECT s FROM STUDENTS s where s.name = 'Amos Burton'", Student.class);
+        // Student Amos = studentQuery.getSingleResult();
+        // System.out.println(Amos);
 
-        studentQuery = em.createQuery("SELECT s FROM STUDENTS s where s.name = 'Naomi Nagata'", Student.class);
-        Student Naomi = studentQuery.getSingleResult();
-        System.out.println(Naomi);
+        // studentQuery = em.createQuery("SELECT s FROM STUDENTS s where s.name = 'Naomi Nagata'", Student.class);
+        // Student Naomi = studentQuery.getSingleResult();
+        // System.out.println(Naomi);
 
         // finds a section by section number DOESN"T WORK PK CHANGES
-        // var SectionQuery = em.createQuery("SELECT s FROM SECTIONS s where s.sectionId = 2", Section.class);
+        // var SectionQuery = em.createQuery("SELECT s FROM SECTIONS s where s.sectionId
+        // = 2", Section.class);
         // Section CECS174Section = SectionQuery.getSingleResult();
         // System.out.println(CECS174Section);
         // System.out.println("\n\n");
@@ -286,7 +296,6 @@ public class App {
          */
         // attempt to register for section
 
-
         // a = 174
         // b = 274
         // c = 277
@@ -295,25 +304,25 @@ public class App {
         // f = 282
         // g = 101A
 
-        System.out.println("Adding section to Amos");
-        var result = Amos.registerForSection(b);
-        System.out.println(result);
+        // System.out.println("Adding section to Amos");
+        // var result = Amos.registerForSection(b);
+        // System.out.println(result);
 
-        System.out.println("Testing time conflict");
-        studentQuery = em.createQuery("SELECT s FROM STUDENTS s where s.name = 'Jimmy'", Student.class);
-        Student Jimmy = studentQuery.getSingleResult();
-        System.out.println(Jimmy);
-        result = Jimmy.registerForSection(a);
-        System.out.println(result);
-        result = Jimmy.registerForSection(t);
-        System.out.println(result);
+        // System.out.println("Testing time conflict");
+        // var studentQuery = em.createQuery("SELECT s FROM STUDENTS s where s.name = 'Jimmy'", Student.class);
+        // Student Jimmy = studentQuery.getSingleResult();
+        // System.out.println(Jimmy);
+        // var result = Jimmy.registerForSection(g);
+        // System.out.println(result);
+        // result = Jimmy.registerForSection(testSection);
+        // System.out.println(result);
 
         // shows current enrollents, empty at time or writing
         // for (Student student : studentList) {
-        //     System.out.println(student + " Current Enrollents:");
-        //     for (Section section : student.getEnrollments()) {
-        //         System.out.println(section);
-        //     }
+        // System.out.println(student + " Current Enrollents:");
+        // for (Section section : student.getEnrollments()) {
+        // System.out.println(section);
+        // }
 
         // }
         // */
@@ -333,20 +342,21 @@ public class App {
 
         // test Sections/semester
 
-        //EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
-        //EntityManager em = factory.createEntityManager();
-        
-        //prints semesters and their sections
+        // EntityManagerFactory factory =
+        // Persistence.createEntityManagerFactory("demoDb");
+        // EntityManager em = factory.createEntityManager();
+
+        // prints semesters and their sections
         // var semesterQuery = em.createQuery("SELECT s FROM SEMESTERS s",
-        //         Semester.class);
+        // Semester.class);
         // var semesterList = semesterQuery.getResultList();
 
         // for (Semester semester : semesterList) {
-        //     System.out.println(semester);
-        //     for (Section section : semester.getSections()) {
-        //         System.out.println(section);
-        //     }
-        //     System.out.println();
+        // System.out.println(semester);
+        // for (Section section : semester.getSections()) {
+        // System.out.println(section);
+        // }
+        // System.out.println();
 
         // }
 
@@ -375,6 +385,6 @@ public class App {
          * //
          */
 
-        // menu();//this should be the only thing in main when completed
+        menu();//this should be the only thing in main when completed
     }
 }
