@@ -71,10 +71,10 @@ public class Transcript implements Comparable<Transcript>{
 
     public int compareTo(Transcript t) {
         if(this.section.getSemester().getStartDate().isAfter(t.section.getSemester().getStartDate())){
-            return -1;
-        }
-        else if(this.section.getSemester().getStartDate().isAfter(t.section.getSemester().getStartDate())){
             return 1;
+        }
+        else if(this.section.getSemester().getStartDate().isBefore(t.section.getSemester().getStartDate())){
+            return -1;
         }
         else{
             return 0;

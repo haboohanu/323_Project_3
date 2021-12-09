@@ -13,15 +13,6 @@ import model.Student.RegistrationResult;
 
 public class App {
 
-    // placed globally for better testing - delete before turning in if possible
-    // static Section a;
-    // static Section b;
-    // static Section c;
-    // static Section d;
-    // static Section e;
-    // static Section f;
-    // static Section g;
-    // static Section testSection;
 
     public static void instantiate() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
@@ -78,6 +69,7 @@ public class App {
         Transcript tr7 = new Transcript("C", a, st3);
         Transcript tr8 = new Transcript("B", b, st3);
         Transcript tr9 = new Transcript("D", c, st3);
+        
 
         em.getTransaction().begin();
         em.persist(s1);
@@ -127,7 +119,6 @@ public class App {
     public static void lookup() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
         EntityManager em = factory.createEntityManager();
-        System.out.println("Look up");
         System.out.println("Enter the name of student");
         Scanner input = new Scanner(System.in);
         String name = input.nextLine();
@@ -153,7 +144,6 @@ public class App {
     public static void register() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
         EntityManager em = factory.createEntityManager();
-        System.out.println("Register:");
         var semesters = em.createQuery("SELECT s FROM SEMESTERS s", Semester.class).getResultList();
         for (Semester s : semesters) {
             System.out.println(s);
