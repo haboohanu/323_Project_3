@@ -36,7 +36,6 @@ public class Transcript implements Comparable<Transcript>{
         this.student = student;
 
         student.addTranscript(this);
-        //section.addTranscript(this);
     }
 
     @Override

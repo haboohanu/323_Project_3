@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Tue Dec 07 22:54:38 PST 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-017d-98d2-9ac2-000005c2a4d8 
-on database directory /Users/jacob/Google Drive/School/2021 Fall/323 Database Fundamentals/CECS323LAB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@42110406 
-Loaded from file:/Users/jacob/git-repos/323_Project_3/lib/derby.jar
-java.vendor=Azul Systems, Inc.
-java.runtime.version=17.0.1+12-LTS
-user.dir=/Users/jacob/git-repos/323_Project_3
-os.name=Mac OS X
-os.arch=aarch64
-os.version=12.0.1
+Wed Dec 08 21:32:43 PST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-017d-9dad-f36f-00000f0df388 
+on database directory D:\school\323_f2021\DataSources\CECS323 with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@2a139a55 
+Loaded from file:/D:/school/323_f2021/323_Project_3/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=17.0.1+12-LTS-39
+user.dir=D:\school\323_f2021\323_Project_3
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''

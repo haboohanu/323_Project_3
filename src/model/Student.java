@@ -111,7 +111,7 @@ public class Student {
     public RegistrationResult registerForSection(Section s) {
         RegistrationResult toReturn = RegistrationResult.SUCCESS;
 
-        // 1) Already Passed with C? WORKS
+        // 1) Already Passed with C?
         for (Transcript t : transcripts) {
             boolean hasTakenThisClass = t.getSection().getCourse().getCourseId() == s.getCourse().getCourseId();
             if (hasTakenThisClass) {
@@ -121,7 +121,7 @@ public class Student {
             }
         }
 
-        // 2 and 4) Already enrolled in this/another section of the course? WORKS
+        // 2 and 4) Already enrolled in this/another section of the course? 
         for (Section enrolled : enrollments) {
             if (enrolled.getCourse().getCourseId() == s.getCourse().getCourseId()) {
                 if (enrolled.getSectionId() == s.getSectionId())
@@ -151,7 +151,6 @@ public class Student {
         }
 
         //5)Student is enrolled in another section with a time conflict
-        //WORKS
         for (Section enrolled: enrollments){
             if(enrolled.getSemester()==s.getSemester())
             {
@@ -168,7 +167,7 @@ public class Student {
         }
 
 
-        if (toReturn == RegistrationResult.SUCCESS) {//WORKS
+        if (toReturn == RegistrationResult.SUCCESS) {
             this.getEnrollments().add(s);
             s.enrollStudent(this);
         }

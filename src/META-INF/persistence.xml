@@ -10,7 +10,7 @@
             <property name="jakarta.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
             <!--"jdbc:derby:D:/school/323_f2021/DataSources/CECS323"-->
             <!--"jdbc:derby:/Users/jacob/Google Drive/School/2021 Fall/323 Database Fundamentals/CECS323LAB"-->
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:derby:/Users/jacob/Google Drive/School/2021 Fall/323 Database Fundamentals/CECS323LAB" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:derby:D:/school/323_f2021/DataSources/CECS323" />
             <property name="jakarta.persistence.jdbc.user" value="username" />
             <property name="jakarta.persistence.jdbc.password" value="password" />
             <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create" />

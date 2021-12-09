@@ -48,7 +48,6 @@ public class Section {
     public Section(Course course, Byte sectionNumber, Semester semester, TimeSlot timeSlot, short maxCapacity) {
         this.maxCapacity = maxCapacity;
         this.sectionNumber = sectionNumber;
-        //this.semester = semester;
         semester.addSection(this);//handles creating bidirectional association
         this.timeSlot = timeSlot;
         this.course = course;

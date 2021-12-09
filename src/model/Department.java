@@ -5,10 +5,6 @@ import java.util.*;
 import jakarta.persistence.*;
 
 @Entity(name = "DEPARTMENTS")
-// @Table(
-//     uniqueConstraints = 
-//         @UniqueConstraint(columnNames = {"DEPARTMENT_ID"})
-// )
 public class Department {
     
     @Column(length = 128)
