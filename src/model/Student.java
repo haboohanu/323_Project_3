@@ -15,20 +15,22 @@ public class Student {
     private int studentID;
 
     @OneToMany(mappedBy = "student")
-    private List<Transcript> transcripts = new ArrayList<Transcript>();
+    private List<Transcript> transcripts;
 
     @ManyToMany
     @JoinTable(name = "ENROLLMENTS", joinColumns = @JoinColumn(name = "STUDENT_ID"), inverseJoinColumns = @JoinColumn(name = "SECTION_ID"))
-    private List<Section> enrollments = new ArrayList<Section>();
+    private List<Section> enrollments;
 
     public Student() {
+        transcripts = new ArrayList<Transcript>();
+        enrollments = new ArrayList<Section>();
     }
 
     public Student(String name, int studentID) {
         this.name = name;
         this.studentID = studentID;
-        //transcripts = new ArrayList<Transcript>();
-        //enrollments = new ArrayList<Section>();
+        transcripts = new ArrayList<Transcript>();
+        enrollments = new ArrayList<Section>();
     }
 
     @Override
@@ -164,9 +166,6 @@ public class Student {
                 }
             }
         }
-
-
-
 
 
         if (toReturn == RegistrationResult.SUCCESS) {//WORKS

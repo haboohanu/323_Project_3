@@ -24,6 +24,7 @@ public class Semester {
 
 
     public Semester() {
+        sections = new ArrayList<Section>();
     }
 
     public Semester(String title, LocalDate startDate) {

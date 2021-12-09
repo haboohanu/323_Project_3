@@ -3,6 +3,7 @@ package model;
 import java.util.*;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity(name = "PREREQUISITES")
 public class Prerequisite {
@@ -16,10 +17,12 @@ public class Prerequisite {
     @Column(name = "PREREQUISITE_ID")
     private int transcriptId;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "COURSE_ID")
     private Course course;
 
+    @NotNull
     @ManyToOne
     private Course course_prereq;
 

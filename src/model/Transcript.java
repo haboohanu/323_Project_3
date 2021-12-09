@@ -3,11 +3,13 @@ package model;
 import java.util.*;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity(name = "TRANSCRIPTS")
 public class Transcript implements Comparable<Transcript>{
 
     @Column(length = 2)
+    @NotNull
     private String gradeEarned;
 
 
@@ -16,12 +18,10 @@ public class Transcript implements Comparable<Transcript>{
     @Column(name = "TRANSCRIPT_ID")
     private int transcriptId;
 
-    //@Id
     @JoinColumn(name = "SECTION_ID")
     @ManyToOne
     private Section section;
 
-    //@Id
     @JoinColumn(name = "STUDENT_ID")
     @ManyToOne
     private Student student;

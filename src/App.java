@@ -14,14 +14,14 @@ import model.Student.RegistrationResult;
 public class App {
 
     // placed globally for better testing - delete before turning in if possible
-    static Section a;
-    static Section b;
-    static Section c;
-    static Section d;
-    static Section e;
-    static Section f;
-    static Section g;
-    static Section testSection;
+    // static Section a;
+    // static Section b;
+    // static Section c;
+    // static Section d;
+    // static Section e;
+    // static Section f;
+    // static Section g;
+    // static Section testSection;
 
     public static void instantiate() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("demoDb");
@@ -39,16 +39,12 @@ public class App {
         TimeSlot t3 = new TimeSlot((byte) (42), LocalTime.of(12, 0), LocalTime.of(12, 50));
         TimeSlot t4 = new TimeSlot((byte) (2), LocalTime.of(8, 0), LocalTime.of(10, 45));
 
-        //TimeSlot testTime = new TimeSlot((byte) (2), LocalTime.of(11, 30), LocalTime.of(12, 45));
-
-        Course c1 = new Course(d1, "174", "Introduction to Programming and Problem Solving", 3);
-        // Course EXPLODE = new Course(d1, "174", "This should cause an ERROR", 7);
-        // em.persist(EXPLODE);//test unique key enforcement
-        Course c2 = new Course(d1, "274", "Data Structures", 3);
-        Course c3 = new Course(d1, "277", "Object Oriented Application Programming", 3);
-        Course c4 = new Course(d1, "282", "Advanced C++", 3);
-        Course c5 = new Course(d2, "101A", "Fundamentals of Italian", 4);
-        Course c6 = new Course(d2, "101B", "Fundamentals of Italian", 4);
+        Course c1 = new Course(d1, "174", "Introduction to Programming and Problem Solving", (byte)3);
+        Course c2 = new Course(d1, "274", "Data Structures", (byte)3);
+        Course c3 = new Course(d1, "277", "Object Oriented Application Programming", (byte)3);
+        Course c4 = new Course(d1, "282", "Advanced C++", (byte)3);
+        Course c5 = new Course(d2, "101A", "Fundamentals of Italian",(byte) 4);
+        Course c6 = new Course(d2, "101B", "Fundamentals of Italian", (byte)4);
 
         Prerequisite p1 = new Prerequisite('C', c2, c1);
         Prerequisite p2 = new Prerequisite('C', c3, c2);
@@ -56,31 +52,19 @@ public class App {
         Prerequisite p4 = new Prerequisite('C', c4, c3);
         Prerequisite p5 = new Prerequisite('D', c6, c5);
 
-        a = new Section(c1, 1, s1, t1, 105);// 174
-        b = new Section(c2, 1, s2, t2, 140);// 274
-        c = new Section(c3, 3, s2, t4, 35);// 277
-        d = new Section(c4, 5, s3, t2, 35);// 282
-        e = new Section(c3, 1, s3, t1, 35);// 277
-        f = new Section(c4, 7, s3, t1, 35);// 282
-        g = new Section(c5, 1, s3, t3, 25);// 101A
+        Section a = new Section(c1, (byte)1, s1, t1, (short)105);// 174
+        Section b = new Section(c2, (byte)1, s2, t2, (short)140);// 274
+        Section c = new Section(c3, (byte)3, s2, t4, (short)35);// 277
+        Section d = new Section(c4, (byte)5, s3, t2, (short)35);// 282
+        Section e = new Section(c3, (byte)1, s3, t1, (short)35);// 277
+        Section f = new Section(c4, (byte)7, s3, t1, (short)35);// 282
+        Section g = new Section(c5, (byte)1, s3, t3, (short)25);// 101A
         
-        //testSection = new Section(c1, 1, s3, testTime, 10);
-
-        // delete other testing references and uncomment below
-        // Section a = new Section(c1, 1, s1, t1, 105);
-        // Section b = new Section(c2, 1, s2, t2, 140);
-        // Section c = new Section(c3, 3, s2, t4, 35);
-        // Section d = new Section(c4, 5, s3, t2, 35);
-        // Section e = new Section(c3, 1, s3, t1, 35);
-        // Section f = new Section(c4, 7, s3, t1, 35);
-        // Section g = new Section(c5, 1, s3, t3, 25);
 
         Student st1 = new Student("Naomi Nagata", 123456789);
         st1.getEnrollments().add(d);
         Student st2 = new Student("James Holden", 987654321);
         Student st3 = new Student("Amos Burton", 555555555);
-
-        //Student testStudent = new Student("Jimmy", 1);
 
         // Naomi
         Transcript tr1 = new Transcript("A", a, st1);
@@ -181,9 +165,9 @@ public class App {
             var namedSemester = em.createQuery("SELECT s FROM SEMESTERS s WHERE "
                     + "s.title = ?1", Semester.class);
             namedSemester.setParameter(1, semester);
+            var registerSemesterId = namedSemester.getSingleResult().getSemesterId();
             System.out.println("Enter student name");
             String name = input.nextLine();
-            var registerSemesterId = namedSemester.getSingleResult().getSemesterId();
             var namedStudent = em.createQuery("SELECT s FROM STUDENTS s WHERE "
                     + "s.name = ?1", Student.class);
             namedStudent.setParameter(1, name);

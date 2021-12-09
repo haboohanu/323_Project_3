@@ -23,7 +23,7 @@ public class Course {
     @Column(length = 64)
     private String title;
     
-    private int units;
+    private byte units;
 
     @OneToMany(mappedBy = "course")
     private List<Prerequisite> prerequisites;
@@ -45,7 +45,7 @@ public class Course {
     }
 
 
-    public Course(Department department, String number, String title, int units) {
+    public Course(Department department, String number, String title, Byte units) {
         this.department = department;
         this.number = number;
         this.title = title;
@@ -79,7 +79,7 @@ public class Course {
         return this.units;
     }
 
-    public void setUnits(int units) {
+    public void setUnits(Byte units) {
         this.units = units;
     }
 

@@ -3,6 +3,7 @@ package model;
 import java.util.*;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity(name = "SECTIONS")
 @Table(
@@ -11,7 +12,7 @@ import jakarta.persistence.*;
 )
 public class Section {
 
-    private int maxCapacity;
+    private short maxCapacity;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,37 +20,39 @@ public class Section {
     private int sectionId;
 
     @Column(name = "SECTION_NUMBER")
-    private int sectionNumber;
+    private byte sectionNumber;
     
     @JoinColumn(name = "SEMESTER_ID")
     @ManyToOne
+    @NotNull
     private Semester semester;
 
     @ManyToMany(mappedBy = "enrollments")
-    private List<Student> enrolled_students = new ArrayList<Student>();
+    private List<Student> enrolled_students;
 
     @JoinColumn(name = "TIMESLOT_ID")
     @ManyToOne
+    @NotNull
     private TimeSlot timeSlot;
 
     @JoinColumn(name = "COURSE_ID")
     @ManyToOne
+    @NotNull
     private Course course;
 
 
     public Section() {
-        //enrolled_students = new ArrayList<Student>();
+        enrolled_students = new ArrayList<Student>();
     }
 
-    public Section(Course course, int sectionNumber, Semester semester, TimeSlot timeSlot, int maxCapacity) {
+    public Section(Course course, Byte sectionNumber, Semester semester, TimeSlot timeSlot, short maxCapacity) {
         this.maxCapacity = maxCapacity;
         this.sectionNumber = sectionNumber;
         //this.semester = semester;
         semester.addSection(this);//handles creating bidirectional association
         this.timeSlot = timeSlot;
         this.course = course;
-
-        //enrolled_students = new ArrayList<Student>();
+        enrolled_students = new ArrayList<Student>();
 
     }
 
@@ -65,7 +68,7 @@ public class Section {
         return this.maxCapacity;
     }
 
-    public void setMaxCapacity(int maxCapacity) {
+    public void setMaxCapacity(short maxCapacity) {
         this.maxCapacity = maxCapacity;
     }
 
@@ -73,7 +76,7 @@ public class Section {
         return this.sectionNumber;
     }
 
-    public void setSectionNumber(int sectionNumber) {
+    public void setSectionNumber(Byte sectionNumber) {
         this.sectionNumber = sectionNumber;
     }
 
