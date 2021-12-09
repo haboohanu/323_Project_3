@@ -107,9 +107,6 @@ public class Section {
         return this.sectionId;
     }
 
-    public void setSectionId(int sectionId) {
-        this.sectionId = sectionId;
-    }    
     public void enrollStudent(Student s)
     {
         enrolled_students.add(s);

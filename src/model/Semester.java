@@ -58,11 +58,6 @@ public class Semester {
         return this.semesterId;
     }
 
-    public void setSemesterId(int semesterId) {
-        this.semesterId = semesterId;
-    }
-
-
     public List<Section> getSections() {
         return this.sections;
     }

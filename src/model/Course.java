@@ -103,9 +103,6 @@ public class Course {
         return this.courseId;
     }
 
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
-    }
  
 
     

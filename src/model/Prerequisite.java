@@ -38,6 +38,19 @@ public class Prerequisite {
         course.addPrereq(this);
     }
 
+
+    public int getTranscriptId() {
+        return this.transcriptId;
+    }
+    
+    public Course getCourse_prereq() {
+        return this.course_prereq;
+    }
+
+    public void setCourse_prereq(Course course_prereq) {
+        this.course_prereq = course_prereq;
+    }
+    
     public char getMinimumGrade() {
         return this.minimumGrade;
     }

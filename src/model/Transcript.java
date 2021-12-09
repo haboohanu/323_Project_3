@@ -43,6 +43,11 @@ public class Transcript implements Comparable<Transcript>{
         return this.section.getCourse().getDepartment().getAbbreviation() + " " + this.section.getCourse().getNumber() 
         + ", " + this.section.getSemester().getTitle() + ". Grade earned: " + this.gradeEarned;
     }
+
+    public int getTranscriptId() {
+        return this.transcriptId;
+    }
+
     public String getGradeEarned() {
         return this.gradeEarned;
     }

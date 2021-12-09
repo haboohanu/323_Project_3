@@ -50,10 +50,6 @@ public class Student {
         return this.studentID;
     }
 
-    public void setStudentID(int studentID) {
-        this.studentID = studentID;
-    }
-
     public List<Transcript> getTranscripts() {
         return this.transcripts;
     }

@@ -50,10 +50,6 @@ public class Department {
         return this.departmentId;
     }
 
-    public void setDepartmentId(int departmentId) {
-        this.departmentId = departmentId;
-    }
-
     public List<Course> getCourses() {
         return this.courses;
     }
